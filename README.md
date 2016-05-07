@@ -149,3 +149,10 @@ from the Java code to the charts and styling and configuring the charts was not 
 So I stated looking for alternatives and found Wicked Charts, a wrapper for the JavaScript library
 Highcharts. Using it, I was able to completely configure the charts using Java and creating charts,
 looking the way I wanted them to.
+
+### Respecting Rate Limits
+As both the Riot API as well as the reads and writes to DynamoDB are limited I had to ensure I do not
+run too many requests parallel. After some searching I found Guavas RateLimiter, which does exactly
+what I need. I created an instance per API region and two per database table (read and write) and
+whenever an API request is send, the rate limiters acquire is called to wait for available capacity.
+The same happens for every read and write to DynamoDB.
