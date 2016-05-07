@@ -50,7 +50,7 @@ When you want to use other table/index names and/or capacities you must also
 update the DBTable enum (Db package) and the matching DataClass (Db package)
 accordingly.
 
-Next you must create 2 properties files in the resource package:
+Next you must create 2 properties files in the folder src/main/resources:
 * api.properties: only contains one the property "apiKey" holding you api key
 * dynamoDB.properties: must contain the following properties:
   * accessKey: the access key for a IAM user with access to the database
