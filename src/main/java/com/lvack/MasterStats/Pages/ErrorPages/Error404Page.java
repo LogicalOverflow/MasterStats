@@ -11,11 +11,10 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
  */
 
 /**
- * simple 404 not found error page displaying the error message
+ * simple 404 not found error page
  */
 public class Error404Page extends BasePage {
     public Error404Page(PageParameters parameters) {
         super(parameters, "404", null);
-        add(new Label("error_message", ""));
     }
 }
