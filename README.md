@@ -10,9 +10,9 @@ For summoners the top champions without chests, the top champions overall,
 the sum of all champion mastery scores as well as a distribution of chests
 granted and champions played are also provided.
 
-This project runs on a tomcat server using the wicket framework for the web
-interface and storing the data in an AWS DynamoDB. Maven is used as build
-system.
+This project runs on a tomcat (Version 8.0.33) server using the wicket framework 
+for the web interface and storing the data in an AWS DynamoDB. Maven is used as build
+system. The live demo is deployed using AWS Beanstalk.
 
 # Getting started
 First of all you need to create the 5 DynamoDB tables:
