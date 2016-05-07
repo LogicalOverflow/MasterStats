@@ -32,10 +32,10 @@ public class RiotApi {
      * @param endpoint the endpoint to send the requests to
      * @param apiKey the api key to use
      */
-    public RiotApi(RiotEndpoint endpoint, String apiKey) {
+    public RiotApi(RiotEndpoint endpoint, String apiKey, double rate) {
         this.endpoint = endpoint;
         this.apiKey = apiKey;
-        rateLimiter = RateLimiter.create(150);
+        rateLimiter = RateLimiter.create(rate);
         client = ClientBuilder.newBuilder()
                 .build();
     }
