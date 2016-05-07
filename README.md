@@ -13,7 +13,7 @@ for the web interface and storing the data in an AWS DynamoDB. Maven is used as 
 system. The live demo is deployed using AWS Beanstalk. A running demo can be found at
 http://masterstats-default.eu-central-1.elasticbeanstalk.com/.
 
-# Getting started
+# Getting your own Instance
 First of all you need to create the 5 DynamoDB tables:
 * champion
   * primary key (read capacity: 1, write capacity: 1):
@@ -50,7 +50,11 @@ update the DBTable enum (Db package) and the matching DataClass (Db package)
 accordingly.
 
 Next you must create 2 properties files in the folder src/main/resources:
-* api.properties: only contains one the property "apiKey" holding you api key
+* api.properties: must contain the following properties:
+  * apiKey: your API key
+  * devKey: true, if you use a development key, false if you use a
+  production key (used to configure the rate limits). If the option has
+  an invalid value or is not set at all, false is used.
 * dynamoDB.properties: must contain the following properties:
   * accessKey: the access key for a IAM user with access to the database
   * secretKey: the secret key for a IAM user with access to the database
@@ -63,7 +67,7 @@ As new summoners are collected using the existing summoners in the database,
 you will have to add some from each region by hand to the database. The easiest
 was to do this is to just search for them on your instance.
 
-# Technologies
+# Technologies used
 
 I use Tomcat, Wicket and AWS DynamoDB manly because I already have experience
 using them. AWS Beanstalk is used for deployment of the live demo and was
