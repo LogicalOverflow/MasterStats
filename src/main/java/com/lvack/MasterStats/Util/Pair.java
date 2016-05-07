@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * PairClass for RiotApiChallengeChampionMastery
+ * PairClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

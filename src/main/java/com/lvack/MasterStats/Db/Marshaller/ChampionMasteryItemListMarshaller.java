@@ -6,9 +6,9 @@ import com.lvack.MasterStats.Db.DataClasses.ChampionMasteryItem;
 import java.util.List;
 
 /**
- * ChampionMasteryItemListMarshallerClass for RiotApiChallengeChampionMastery
+ * ChampionMasteryItemListMarshallerClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

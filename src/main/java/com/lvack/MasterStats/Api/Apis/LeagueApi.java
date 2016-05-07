@@ -11,9 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * LeagueApiClass for RiotApiChallengeChampionMastery
+ * LeagueApiClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 public class LeagueApi extends RiotSubApi {

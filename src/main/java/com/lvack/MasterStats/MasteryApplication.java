@@ -15,9 +15,9 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
 
 /**
- * MasteryApplicationClass for RiotApiChallengeChampionMastery
+ * MasteryApplicationClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 @Slf4j

@@ -15,9 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * NewRandomSummonersJobClass for RiotApiChallengeChampionMastery
+ * SummonerCrawlRunnableClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 @Slf4j

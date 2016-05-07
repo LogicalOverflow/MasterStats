@@ -9,9 +9,9 @@ import lombok.Data;
 import java.util.*;
 
 /**
- * ChampionStatisticClass for RiotApiChallengeChampionMastery
+ * ChampionStatisticItemClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 @Data

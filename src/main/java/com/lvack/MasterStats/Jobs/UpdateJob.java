@@ -7,9 +7,9 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 /**
- * UpdateJobClass for RiotApiChallengeChampionMastery
+ * UpdateJobClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 @Slf4j

@@ -5,9 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * SummonerKeyClass for RiotApiChallengeChampionMastery
+ * SummonerKeyClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

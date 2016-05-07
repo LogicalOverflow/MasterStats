@@ -14,9 +14,9 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.wicketstuff.annotation.mount.MountPath;
 
 /**
- * MainPageClass for RiotApiChallengeChampionMastery
+ * HomePageClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

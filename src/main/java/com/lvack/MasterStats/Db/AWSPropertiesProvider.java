@@ -11,9 +11,9 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * AWSCredentialsProviderClass for RiotApiChallengeChampionMastery
+ * AWSPropertiesProviderClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

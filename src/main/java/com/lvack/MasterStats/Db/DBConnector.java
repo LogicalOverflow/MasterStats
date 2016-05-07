@@ -6,9 +6,9 @@ import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import lombok.Getter;
 
 /**
- * DBConnectorClass for RiotApiChallengeChampionMastery
+ * DBConnectorClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

@@ -37,9 +37,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * SingleSummonerPageClass for RiotApiChallengeChampionMastery
+ * SingleSummonerPageClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**
@@ -299,8 +299,6 @@ public class SingleSummonerPage extends BasePage {
 
             // hide link if necessary
             link.setVisible(visible);
-
-
         }
     }
 }

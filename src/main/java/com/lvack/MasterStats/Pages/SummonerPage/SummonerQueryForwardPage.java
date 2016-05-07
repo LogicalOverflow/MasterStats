@@ -15,9 +15,9 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.wicketstuff.annotation.mount.MountPath;
 
 /**
- * SummonerQueryResultClass for RiotApiChallengeChampionMastery
+ * SummonerQueryForwardPageClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

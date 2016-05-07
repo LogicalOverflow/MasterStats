@@ -4,9 +4,9 @@ import java.util.Comparator;
 import java.util.Objects;
 
 /**
- * GradeComparatorClass for RiotApiChallengeChampionMastery
+ * GradeComparatorClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

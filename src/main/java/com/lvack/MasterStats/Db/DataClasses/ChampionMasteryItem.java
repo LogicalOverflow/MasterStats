@@ -4,9 +4,9 @@ import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import lombok.Data;
 
 /**
- * ChampionMasteryItemClass for RiotApiChallengeChampionMastery
+ * ChampionMasteryItemClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 @Data
 @DynamoDBTable(tableName = "championMastery")

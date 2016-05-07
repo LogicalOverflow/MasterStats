@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * StringIntegerIntegerMapMarshallerClass for RiotApiChallengeChampionMastery
+ * StringIntegerIntegerMapMarshallerClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

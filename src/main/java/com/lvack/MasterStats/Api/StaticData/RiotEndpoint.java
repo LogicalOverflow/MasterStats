@@ -1,9 +1,9 @@
 package com.lvack.MasterStats.Api.StaticData;
 
 /**
- * EndpointsClass for RiotApiChallengeChampionMastery
+ * RiotEndpointClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

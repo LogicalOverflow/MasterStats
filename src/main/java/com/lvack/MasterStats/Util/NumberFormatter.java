@@ -7,16 +7,19 @@ import java.text.NumberFormat;
 /**
  * NumberFormatterClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
+/**
+ * formatter to format numbers on web pages
+ */
 public class NumberFormatter {
     public static final DecimalFormat FORMAT = getFormat();
 
     private static DecimalFormat getFormat() {
         DecimalFormat decimalFormat = (DecimalFormat) NumberFormat.getInstance();
         DecimalFormatSymbols decimalFormatSymbols = decimalFormat.getDecimalFormatSymbols();
-        decimalFormatSymbols.setGroupingSeparator(' ');
+        decimalFormatSymbols.setGroupingSeparator('\u00A0');
         decimalFormatSymbols.setDecimalSeparator('.');
         return new DecimalFormat("###,###,###,##0", decimalFormatSymbols);
     }

@@ -3,9 +3,9 @@ package com.lvack.MasterStats.Util;
 import com.google.gson.Gson;
 
 /**
- * GsonProviderClass for RiotApiChallengeChampionMastery
+ * GsonProviderClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

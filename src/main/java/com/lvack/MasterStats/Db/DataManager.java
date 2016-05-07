@@ -23,9 +23,9 @@ import static com.lvack.MasterStats.Util.SummonerKeyUtils.summonerIdRegionToKey;
 import static com.lvack.MasterStats.Util.SummonerKeyUtils.summonerKeyToIdRegion;
 
 /**
- * DataManagerClass for RiotApiChallengeChampionMastery
+ * DataManagerClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

@@ -10,9 +10,9 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
 /**
- * RiotApiClass for RiotApiChallengeChampionMastery
+ * RiotApiClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 public class RiotApi {

@@ -6,9 +6,9 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 /**
- * UpdateChampionsClass for RiotApiChallengeChampionMastery
+ * CacheUpdateJobClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 public class CacheUpdateJob implements Job {

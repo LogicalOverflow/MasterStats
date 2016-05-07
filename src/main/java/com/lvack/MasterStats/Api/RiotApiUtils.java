@@ -4,9 +4,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * UtilsClass for RiotApiChallengeChampionMastery
+ * RiotApiUtilsClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 public class RiotApiUtils {

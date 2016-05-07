@@ -3,9 +3,9 @@ package com.lvack.MasterStats.Util;
 import com.lvack.MasterStats.Api.StaticData.RiotEndpoint;
 
 /**
- * SummonerKeyUtilClass for RiotApiChallengeChampionMastery
+ * SummonerKeyUtilsClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 public class SummonerKeyUtils {

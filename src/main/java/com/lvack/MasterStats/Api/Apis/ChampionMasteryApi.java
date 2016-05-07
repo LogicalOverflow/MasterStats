@@ -9,9 +9,9 @@ import javax.ws.rs.client.WebTarget;
 import java.util.List;
 
 /**
- * ChampionMasteryClass for RiotApiChallengeChampionMastery
+ * ChampionMasteryApiClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 public class ChampionMasteryApi extends RiotSubApi {

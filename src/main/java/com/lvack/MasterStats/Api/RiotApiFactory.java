@@ -9,9 +9,9 @@ import java.util.HashMap;
 import java.util.Properties;
 
 /**
- * RiotApiFactoryClass for RiotApiChallengeChampionMastery
+ * RiotApiFactoryClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

@@ -6,9 +6,9 @@ import com.lvack.MasterStats.Util.GsonProvider;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * IntegerIntegerMapMarshallerClass for RiotApiChallengeChampionMastery
+ * GsonMarshallerClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

@@ -7,9 +7,9 @@ import lombok.Data;
 import java.util.HashMap;
 
 /**
- * OverallSummonerStatisticItemClass for RiotApiChallengeChampionMastery
+ * OverallSummonerStatisticItemClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 @Data

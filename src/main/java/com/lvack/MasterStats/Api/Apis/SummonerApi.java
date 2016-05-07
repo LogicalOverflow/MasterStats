@@ -11,9 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * SummonerClass for RiotApiChallengeChampionMastery
+ * SummonerApiClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 public class SummonerApi extends RiotSubApi {

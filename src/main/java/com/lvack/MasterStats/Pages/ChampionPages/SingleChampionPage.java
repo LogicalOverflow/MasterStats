@@ -29,9 +29,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * SingleChampionPageClass for RiotApiChallengeChampionMastery
+ * SingleChampionPageClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

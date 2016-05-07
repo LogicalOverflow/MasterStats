@@ -4,9 +4,9 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.wicketstuff.annotation.mount.MountPath;
 
 /**
- * ImprintClass for RiotApiChallengeChampionMastery
+ * ImprintClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

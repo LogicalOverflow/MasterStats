@@ -3,9 +3,9 @@ package com.lvack.MasterStats.Pages;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 /**
- * StatelessPageClass for RiotApiChallengeChampionMastery
+ * StaticPageClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

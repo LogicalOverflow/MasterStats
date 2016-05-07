@@ -4,9 +4,9 @@ import com.lvack.MasterStats.Pages.StaticPage;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 /**
- * ServerErrorPageClass for RiotApiChallengeChampionMastery
+ * ServerErrorPageClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

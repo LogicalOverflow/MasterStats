@@ -3,9 +3,9 @@ package com.lvack.MasterStats.Api.ResponseClasses;
 import lombok.Data;
 
 /**
- * LeagueEntryDtoClass for RiotApiChallengeChampionMastery
+ * LeagueEntryDtoClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 @Data

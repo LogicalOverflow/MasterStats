@@ -8,9 +8,9 @@ import com.lvack.MasterStats.Api.StaticData.RiotEndpoint;
 import javax.ws.rs.client.WebTarget;
 
 /**
- * StaticDataApiClass for RiotApiChallengeChampionMastery
+ * StaticDataApiClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 public class StaticDataApi extends RiotSubApi {

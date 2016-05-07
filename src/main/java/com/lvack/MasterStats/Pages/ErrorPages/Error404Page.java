@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Error404PageClass for RiotApiChallengeChampionMastery
+ * Error404PageClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

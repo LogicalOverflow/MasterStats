@@ -4,9 +4,9 @@ import com.lvack.MasterStats.Pages.ChampionPages.ChampionsPage;
 import org.apache.wicket.markup.html.WebPage;
 
 /**
- * PageTypeClass for RiotApiChallengeChampionMastery
+ * PageTypeClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

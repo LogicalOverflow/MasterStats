@@ -7,9 +7,9 @@ import com.lvack.MasterStats.Api.RiotApiResponse;
 import javax.ws.rs.client.WebTarget;
 
 /**
- * MatchListApiClass for RiotApiChallengeChampionMastery
+ * MatchListApiClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 public class MatchListApi extends RiotSubApi {

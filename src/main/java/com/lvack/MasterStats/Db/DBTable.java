@@ -3,9 +3,9 @@ package com.lvack.MasterStats.Db;
 import com.google.common.util.concurrent.RateLimiter;
 
 /**
- * TableClass for RiotApiChallengeChampionMastery
+ * DBTableClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

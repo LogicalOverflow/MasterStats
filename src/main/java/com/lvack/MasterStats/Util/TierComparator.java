@@ -1,9 +1,9 @@
 package com.lvack.MasterStats.Util;
 
 /**
- * TierComparatorClass for RiotApiChallengeChampionMastery
+ * TierComparatorClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 import com.lvack.MasterStats.Api.StaticData.RankedTier;

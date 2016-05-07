@@ -17,9 +17,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * ChampionsPageClass for RiotApiChallengeChampionMastery
+ * ChampionsPageClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**

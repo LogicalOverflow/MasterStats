@@ -5,9 +5,9 @@ import com.googlecode.wickedcharts.highcharts.options.color.HexColor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * TierNamesClass for RiotApiChallengeChampionMastery
+ * RankedTierClass for MasterStats
  *
- * @author Leon Vack - TWENTY |20
+ * @author Leon Vack
  */
 
 /**
