@@ -6,6 +6,7 @@ import com.googlecode.wickedcharts.highcharts.options.series.PointSeries;
 import com.googlecode.wickedcharts.wicket7.highcharts.Chart;
 import com.lvack.MasterStats.Api.StaticData.RankedTier;
 import com.lvack.MasterStats.PageData.PageDataProvider;
+import com.lvack.MasterStats.Util.NumberFormatter;
 import com.lvack.MasterStats.Util.TierComparator;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.wicket.markup.html.basic.Label;
@@ -79,8 +80,8 @@ public class HomePage extends StaticPage {
         add(new Chart("player_chart", playerOptions));
 
         // set player count in text
-        add(new Label("player_count", PageDataProvider.overallSummonerStatisticItem.getSummonerCounts()
-                .values().stream().mapToInt(i -> i).sum()));
+        add(new Label("player_count", NumberFormatter.formatLong(PageDataProvider.overallSummonerStatisticItem
+                .getSummonerCounts().values().stream().mapToInt(i -> i).sum())));
     }
 
 }

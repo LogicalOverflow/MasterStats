@@ -14,6 +14,7 @@ import com.lvack.MasterStats.PageData.PageDataProvider;
 import com.lvack.MasterStats.Pages.BasePage;
 import com.lvack.MasterStats.Pages.ChampionPages.SingleChampionPage;
 import com.lvack.MasterStats.Util.GradeComparator;
+import com.lvack.MasterStats.Util.NumberFormatter;
 import com.lvack.MasterStats.Util.Pair;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.ListUtils;
@@ -77,10 +78,11 @@ public class SingleSummonerPage extends BasePage {
         // set page title, summoner name, the mastery score
         super.add(new Label("page_title", String.format("MasterStats - %s", summonerItem.getSummonerName())));
         add(new Label("summoner_name", summonerItem.getSummonerName()));
-        add(new Label("summoner_score", String.format("Mastery Score: %d", summonerItem.getMasteryScore())));
+        add(new Label("summoner_score", String.format("Mastery Score: %s", NumberFormatter.formatLong(
+                summonerItem.getMasteryScore()))));
         // set the total score to the sum of all individual scores
-        add(new Label("total_score", String.format("Total Champion Points: %d", statisticItem.getChampionMasteries()
-                .stream().mapToInt(ChampionMasteryItem::getChampionPoints).sum())));
+        add(new Label("total_score", String.format("Total Champion Points: %s", NumberFormatter.formatLong(
+                statisticItem.getChampionMasteries().stream().mapToInt(ChampionMasteryItem::getChampionPoints).sum()))));
 
         // set summoners ranked label ("null" as tier is replaced with unranked)
         if ("null".endsWith(summonerItem.getTier())) add(new Label("summoner_rank", "Unranked"));
@@ -292,8 +294,8 @@ public class SingleSummonerPage extends BasePage {
             // add champion portrait, name and mastery score as well as champion level
             link.add(new ExternalImage("champion_portrait", championStatistic.getPortraitUrl()));
             link.add(new Label("champion_name", championStatistic.getChampionName()));
-            link.add(new Label("champion_stats", String.format("%d - Level %d", mastery.getChampionPoints(),
-                    mastery.getChampionLevel())));
+            link.add(new Label("champion_stats", String.format("%s - Level %d", NumberFormatter.formatLong(
+                    mastery.getChampionPoints()), mastery.getChampionLevel())));
 
             // hide link if necessary
             link.setVisible(visible);

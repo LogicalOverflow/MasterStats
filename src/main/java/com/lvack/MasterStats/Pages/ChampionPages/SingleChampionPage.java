@@ -10,6 +10,7 @@ import com.lvack.MasterStats.PageData.PageDataProvider;
 import com.lvack.MasterStats.Pages.StaticPage;
 import com.lvack.MasterStats.Pages.SummonerPage.SingleSummonerPage;
 import com.lvack.MasterStats.Util.GradeComparator;
+import com.lvack.MasterStats.Util.NumberFormatter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.ExternalImage;
@@ -63,7 +64,8 @@ public class SingleChampionPage extends StaticPage {
                 SingleSummonerPage.class, new PageParameters()
                 .set(0, championStatisticItem.getMaxPointsSummonerRegion())
                 .set(1, championStatisticItem.getMaxPointsSummonerNameKey()));
-        highestScoreLink.add(new Label("highest_score", championStatisticItem.getMaxMasteryPoints()));
+        highestScoreLink.add(new Label("highest_score", NumberFormatter.formatLong(championStatisticItem
+                .getMaxMasteryPoints())));
         add(highestScoreLink);
 
         // create player distribution chart
