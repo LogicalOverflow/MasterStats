@@ -71,7 +71,7 @@ very easy to use, as I just needed to upload my war file to have my
 application running.
 
 I use Highcharts as graphing library as it is possible to generate the graphs
-from the java code without touching any CSS or HTML. And Bootstrap is used
+from the Java code without touching any CSS or HTML. And Bootstrap is used
 as it makes it easy to create good-looking website easily.
 
 Lombok and Apache Commons are used as the made my life much easier with their
@@ -95,7 +95,7 @@ all of my data. My first try was to use a MySQL database. It worked well at firs
 but when I reached around 100000 summoners, the database got really slow. So I
 decided to go for DynamoDB, as I used it a little bit already while looking around
 the AWS Management Console. I created my tables and transferred all the data from
-the MySQL to DynamoDB using some java code. While transferring I updated my code to
+the MySQL to DynamoDB using some Java code. While transferring I updated my code to
 use annotated data classes for the DynamoDB items and the a mapper to access the
 database. Additionally I rework all my function (statistic generation, adding
 summoners, etc.) to be able to use DynamoDB.
@@ -136,3 +136,12 @@ the file and provide them to the application where needed. On the other hand the
 accessible from outside, without a need to recompile anything, and can be excluded from GitHub
 without any problems. I also decided to move the AWS Region to this properties file
 as it is easier accessible as a hardcoded region and a option one might want to change.
+
+### Visualizing the data
+Even though I had my statistics, just printing them out as text does not look nice and makes it
+hard to look into it and draw any conclusions. That is why I needed a way to make nice graphs using
+my data. I first tried chartist.js, but even though the library sees to be nice, getting the data
+from the Java code to the charts and styling and configuring the charts was not something going well.
+So I stated looking for alternatives and found Wicked Charts, a wrapper for the JavaScript library
+Highcharts. Using it, I was able to completely configure the charts using Java and creating charts,
+looking the way I wanted them to.
