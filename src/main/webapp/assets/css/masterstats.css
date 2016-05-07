@@ -25,3 +25,12 @@
     font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
     padding-bottom: 5px;
 }
+
+a.footer-link, a:link.footer-link, a:visited.footer-link, a:hover.footer-link, a:active.footer-link {
+    color: #BEBEBE;
+    text-decoration: none;
+}
+
+.top-buffer {
+    margin-top: 20px;
+}
