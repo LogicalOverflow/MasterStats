@@ -57,11 +57,8 @@ Next you must create 2 properties files in the resource package:
   * secretKey: the secret key for a IAM user with access to the database
   * region: the region the dynamoDB is hosted (e.g. "EU_CENTRAL_1")
 
-Now you can build the MasterStats-Server.war file using maven:
-```sh
-mvn clean package
-```
-The war file can now be deployed to your tomcat server.
+Now you can build the MasterStats-Server.war file using maven. The war file
+can then be deployed to your tomcat server.
 
 As new summoners are collected using the existing summoners in the database,
 you will have to add some from each region by hand to the database. The easiest
