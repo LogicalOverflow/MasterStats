@@ -34,7 +34,7 @@ public class HomePage extends StaticPage {
         playerOptions.setTitle(new Title("Players analyzed"));
 
         // make chart a pie chart
-        playerOptions.setChartOptions(new ChartOptions().setType(SeriesType.PIE));
+        playerOptions.setChartOptions(new ChartOptions().setType(SeriesType.PIE).setHeight(800));
 
         // disable shadows for the chart
         playerOptions.setPlotOptions(new PlotOptionsChoice().setPie(new PlotOptions().setShadow(false)));
@@ -47,7 +47,7 @@ public class HomePage extends StaticPage {
                 .map(e -> new Point(e.getKey(), e.getValue())).forEach(regionSeries::addPoint);
         // set title and size of pie chart
         regionSeries.setName("Players");
-        regionSeries.setSize(new PixelOrPercent(40, PixelOrPercent.Unit.PERCENT));
+        regionSeries.setSize(new PixelOrPercent(80, PixelOrPercent.Unit.PERCENT));
         // position labels and disable their shadows
         regionSeries.setDataLabels(new DataLabels().setDistance(-30).setShadow(false));
         // add series to chart
@@ -69,7 +69,7 @@ public class HomePage extends StaticPage {
         // set title size of donut chart
         tierSeries.setName("Players");
         tierSeries.setInnerSize(new PixelOrPercent(80, PixelOrPercent.Unit.PERCENT));
-        tierSeries.setSize(new PixelOrPercent(50, PixelOrPercent.Unit.PERCENT));
+        tierSeries.setSize(new PixelOrPercent(100, PixelOrPercent.Unit.PERCENT));
         // disable label shadows
         tierSeries.setDataLabels(new DataLabels().setShadow(false));
         // add series to chart

@@ -304,7 +304,7 @@ public class DataManager {
         Map<Long, String> idKeyMap = new HashMap<>();
 
         // iterate over all champion statistics in the db and save them to the local cache maps
-        scanPages(ChampionStatisticItem.class, new DynamoDBScanExpression(), DBTable.CHAMPION_STATISTIC,
+        scanPages(ChampionStatisticItem.class, new DynamoDBScanExpression().withLimit(1), DBTable.CHAMPION_STATISTIC,
                 c -> statistics.put(c.getKeyName().toLowerCase(), c));
 
         scanPages(ChampionItem.class, new DynamoDBScanExpression(), DBTable.CHAMPION,
@@ -480,20 +480,32 @@ public class DataManager {
             if (totalPlayerCount != 0) e.setAvgMasteryPoints((double) e.getSumMasteryPoints() / totalPlayerCount);
         });
 
+        // set summoner key name and summoner region of the top summoner in for every statistic
         championStatistics.values().forEach(e -> {
             // get summoner id and region
             SummonerKey summonerKey = summonerKeyToIdRegion(e.getMaxPointsSummonerNameKey());
             RiotApi riotApi = RiotApiFactory.getApi(summonerKey.getRegion());
 
-            // request summoner name key from riot api
-            Map<String, SummonerDto> summonerDtos = riotApi.getSummonerApi().getSummonersByIds(summonerKey.getId()).get();
-            if (summonerDtos == null || summonerDtos.size() != 1) {
+            // request summoner name from riot api
+            Map<String, SummonerDto> summonerDtosId = riotApi.getSummonerApi().getSummonersByIds(summonerKey.getId()).get();
+            if (summonerDtosId == null || summonerDtosId.size() != 1) {
                 e.setMaxPointsSummonerNameKey("");
                 return;
             }
 
-            // set summoner name key and region
-            Map.Entry<String, SummonerDto> summonerDtoEntry = summonerDtos.entrySet().stream().findFirst().orElse(null);
+            // request summoner key name from
+            Map.Entry<String, SummonerDto> summonerDtoIdEntry = summonerDtosId.entrySet().stream()
+                    .findFirst().orElse(null);
+            Map<String, SummonerDto> summonerDtosName = riotApi.getSummonerApi().
+                    getSummonersByNames(summonerDtoIdEntry.getValue().getName()).get();
+
+            if (summonerDtosName == null || summonerDtosName.size() != 1) {
+                e.setMaxPointsSummonerNameKey("");
+                return;
+            }
+
+            // save summoner key name and region
+            Map.Entry<String, SummonerDto> summonerDtoEntry = summonerDtosName.entrySet().stream().findFirst().orElse(null);
             e.setMaxPointsSummonerNameKey(summonerDtoEntry.getKey());
             e.setMaxPointsSummonerRegion(summonerKey.getRegion().name());
         });
@@ -524,7 +536,6 @@ public class DataManager {
         scanPages(ChampionItem.class, new DynamoDBScanExpression(), DBTable.CHAMPION, items::add);
 
         return items;
-
     }
 
     /**
