@@ -335,6 +335,8 @@ public class DataManager {
                     championStatisticItem.setAvgMasteryPoints(0);
                     championStatisticItem.setSumMasteryPoints(0);
                     championStatisticItem.setMaxMasteryPoints(0);
+                    championStatisticItem.setMaxPointsSummonerNameKey("");
+                    championStatisticItem.setMaxPointsSummonerRegion("");
                     championStatisticItem.setHighestGradeCounts(new HashMap<>());
                     championStatisticItem.setLevelCounts(new HashMap<>());
                     championStatisticItem.setChestsGranted(new HashMap<>());
@@ -411,9 +413,13 @@ public class DataManager {
                     scores.put(stepId, scores.get(stepId) + 1);
                 }
 
-                // check if mastery score is a new max and add score to sum of all scores
-                if (championPoints > championStatisticItem.getMaxMasteryPoints())
+                // check if mastery score is a new max
+                if (championPoints > championStatisticItem.getMaxMasteryPoints()) {
+                    // update mastery score max and summoner
                     championStatisticItem.setMaxMasteryPoints(championPoints);
+                    championStatisticItem.setMaxPointsSummonerNameKey(summonerKey);
+                }
+                // add score to sum of all scores
                 championStatisticItem.setSumMasteryPoints(championStatisticItem.getSumMasteryPoints() + championPoints);
 
                 // check if highest grade is valid and increment matching grade count
@@ -472,6 +478,24 @@ public class DataManager {
         championStatistics.values().forEach(e -> {
             int totalPlayerCount = e.getPlayerCount().values().stream().mapToInt(i -> i).sum();
             if (totalPlayerCount != 0) e.setAvgMasteryPoints((double) e.getSumMasteryPoints() / totalPlayerCount);
+        });
+
+        championStatistics.values().forEach(e -> {
+            // get summoner id and region
+            SummonerKey summonerKey = summonerKeyToIdRegion(e.getMaxPointsSummonerNameKey());
+            RiotApi riotApi = RiotApiFactory.getApi(summonerKey.getRegion());
+
+            // request summoner name key from riot api
+            Map<String, SummonerDto> summonerDtos = riotApi.getSummonerApi().getSummonersByIds(summonerKey.getId()).get();
+            if (summonerDtos == null || summonerDtos.size() != 1) {
+                e.setMaxPointsSummonerNameKey("");
+                return;
+            }
+
+            // set summoner name key and region
+            Map.Entry<String, SummonerDto> summonerDtoEntry = summonerDtos.entrySet().stream().findFirst().orElse(null);
+            e.setMaxPointsSummonerNameKey(summonerDtoEntry.getKey());
+            e.setMaxPointsSummonerRegion(summonerKey.getRegion().name());
         });
 
         // save ChampionStatisticItem instance to dynamoDB and local statistics cache

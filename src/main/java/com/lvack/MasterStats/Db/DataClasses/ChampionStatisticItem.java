@@ -17,8 +17,8 @@ import java.util.*;
 @Data
 @DynamoDBTable(tableName = "championStatistic")
 public class ChampionStatisticItem {
-    public static final int SCORE_DISTRIBUTION_STEP_SIZE = 1000;
-    public static final int CHAMPION_SCORE_STEP_COUNT = 50;
+    public static final int SCORE_DISTRIBUTION_STEP_SIZE = 100;
+    public static final int CHAMPION_SCORE_STEP_COUNT = 250;
     public static final int MIN_CHAMPION_LEVEL = 1;
     public static final int MAX_CHAMPION_LEVEL = 5;
     public static Set<String> GRADES = new HashSet<>(Arrays.asList("S+", "S", "S-",
@@ -44,6 +44,10 @@ public class ChampionStatisticItem {
     private long sumMasteryPoints;
     @DynamoDBAttribute(attributeName = "maxMasteryPoints")
     private long maxMasteryPoints;
+    @DynamoDBAttribute(attributeName = "maxPointsSummonerNameKey")
+    private String maxPointsSummonerNameKey;
+    @DynamoDBAttribute(attributeName = "maxPointsSummonerRegion")
+    private String maxPointsSummonerRegion;
 
     @DynamoDBAttribute(attributeName = "highestGradeCounts")
     private Map<String, Map<String, Integer>> highestGradeCounts = new HashMap<>();

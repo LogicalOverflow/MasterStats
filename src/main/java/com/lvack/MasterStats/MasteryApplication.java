@@ -77,7 +77,7 @@ public class MasteryApplication extends WebApplication {
 
                 Trigger nightlyTrigger = TriggerBuilder.newTrigger()
                         .withIdentity("defaultCacheUpdaterTrigger", "cacheUpdater")
-                        .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(4, 0))
+                        .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(3, 50))
                         .build();
 
                 scheduler.scheduleJob(nightlyJob, nightlyTrigger);
@@ -88,7 +88,7 @@ public class MasteryApplication extends WebApplication {
 
                 Trigger championTrigger = TriggerBuilder.newTrigger()
                         .withIdentity("defaultUpdaterTrigger", "updater")
-                        .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(3, 0))
+                        .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(4, 0))
                         .build();
 
                 scheduler.scheduleJob(championJob, championTrigger);

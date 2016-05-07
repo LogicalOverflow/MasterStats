@@ -8,10 +8,15 @@ import com.googlecode.wickedcharts.wicket7.highcharts.Chart;
 import com.lvack.MasterStats.Db.DataClasses.ChampionStatisticItem;
 import com.lvack.MasterStats.PageData.PageDataProvider;
 import com.lvack.MasterStats.Pages.StaticPage;
+import com.lvack.MasterStats.Pages.SummonerPage.SingleSummonerPage;
 import com.lvack.MasterStats.Util.GradeComparator;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.ExternalImage;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.DownloadLink;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.link.ResourceLink;
 import org.apache.wicket.request.http.flow.AbortWithHttpErrorCodeException;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.string.StringValue;
@@ -46,14 +51,20 @@ public class SingleChampionPage extends StaticPage {
         if (!PageDataProvider.championStatisticMap.containsKey(championKey))
             throw new AbortWithHttpErrorCodeException(404, "Champion not found!");
 
-        // get champion item from cache and update page title and content with champion name, title,
-        // portrait and highest score
+        // get champion item from cache and update page title and content with champion name, title and portrait
         ChampionStatisticItem championStatisticItem = PageDataProvider.championStatisticMap.get(championKey);
         super.add(new Label("page_title", String.format("MasterStats - %s", championStatisticItem.getChampionName())));
         add(new Label("champion_name", championStatisticItem.getChampionName()));
         add(new Label("champion_title", championStatisticItem.getChampionTitle()));
         add(new ExternalImage("champion_portrait", championStatisticItem.getPortraitUrl()));
-        add(new Label("highest_score", championStatisticItem.getMaxMasteryPoints()));
+
+        // add link to top summoner and set highest score
+        BookmarkablePageLink highestScoreLink = new BookmarkablePageLink("highest_score_link",
+                SingleSummonerPage.class, new PageParameters()
+                .set(0, championStatisticItem.getMaxPointsSummonerRegion())
+                .set(1, championStatisticItem.getMaxPointsSummonerNameKey()));
+        highestScoreLink.add(new Label("highest_score", championStatisticItem.getMaxMasteryPoints()));
+        add(highestScoreLink);
 
         // create player distribution chart
         Options playerOptions = new Options();

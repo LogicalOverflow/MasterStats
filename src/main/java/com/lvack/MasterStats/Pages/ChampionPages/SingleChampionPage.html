@@ -16,19 +16,19 @@
                                 wicket:id="champion_title"></figcaption>
                 </figure>
                 <hr>
-                Highest Mastery Score: <span wicket:id="highest_score"></span>
+                <a wicket:id="highest_score_link">Highest Mastery Score: <span wicket:id="highest_score"></span></a>
             </div>
 
             <div class="col-md-9">
                 <div class="container">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div wicket:id="player_chart"></div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div wicket:id="player_chart"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <div wicket:id="grade_chart"></div>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <div wicket:id="grade_chart"></div>
-                    </div>
-                </div>
                 </div>
             </div>
         </div>
