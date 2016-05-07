@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.3-strict.dtd"
+      xml:lang="en"
+      lang="en">
+<body>
+<wicket:extend>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <p>Currently <span wicket:id="player_count"></span> players were analyzed. All data was collected using
+                    <a href="https://developer.riotgames.com/">Riot's API</a>. The projects is source code is
+                    freely available on <a href="https://github.com/LogicalOverflow/ChampionMasteryChallenge">GitHub</a>
+                    The statistics are updated nightly around 04:00 CET.
+                </p>
+            </div>
+            <div class="col-md-8">
+                <div wicket:id="player_chart"></div>
+            </div>
+        </div>
+    </div>
+</wicket:extend>
+</body>
+</html>

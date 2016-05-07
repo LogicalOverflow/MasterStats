@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.3-strict.dtd"
+      xml:lang="en"
+      lang="en">
+<body>
+<wicket:extend>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <figure class="figure">
+                    <img class="figure-img img-fluid" wicket:id="champion_portrait"/>
+                    <figcaption class="figure-caption champion-list champion-name"
+                                wicket:id="champion_name"></figcaption>
+                    <figcaption class="figure-caption champion-list champion-title"
+                                wicket:id="champion_title"></figcaption>
+                </figure>
+                <hr>
+                Highest Mastery Score: <span wicket:id="highest_score"></span>
+            </div>
+
+            <div class="col-md-9">
+                <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div wicket:id="player_chart"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div wicket:id="grade_chart"></div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div wicket:id="level_chart"></div>
+            </div>
+            <div class="col-md-6">
+                <div wicket:id="score_chart"></div>
+            </div>
+        </div>
+    </div>
+</wicket:extend>
+</body>
+</html>

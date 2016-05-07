@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.3-strict.dtd"
+      xml:lang="en"
+      lang="en">
+<body>
+<wicket:extend>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <img wicket:id="summoner_portrait" style="float: left; padding-right: 5px"/>
+                <span class="summoner-name" wicket:id="summoner_name"></span><br>
+                <span class="summoner-rank" wicket:id="summoner_rank"></span><br>
+                <span class="summoner-level" wicket:id="summoner_level"></span><br>
+                <span class="summoner-score" wicket:id="summoner_score"></span><br>
+                <span class="summoner-total-score" wicket:id="total_score"></span>
+            </div>
+            <div class="col-md-6">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2" wicket:id="top_champions">
+                            <a wicket:id="champion_link">
+                                <figure class="figure">
+                                    <img class="figure-img img-fluid" wicket:id="champion_portrait"/>
+                                    <figcaption class="figure-caption champion-name champion-list"
+                                                wicket:id="champion_name"></figcaption>
+                                    <figcaption class="figure-caption champion-score champion-list"
+                                                wicket:id="champion_stats"></figcaption>
+                                </figure>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div wicket:id="level_chart"></div>
+            </div>
+            <div class="col-md-6">
+                <div wicket:id="grade_chart"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div wicket:id="chest_chart"></div>
+            </div>
+            <div class="col-md-6">
+                <div class="container">
+                    <div class="container chestless-title">
+                        Top Chestless Champions
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2" wicket:id="top_chest_champions_top">
+                            <a wicket:id="champion_link">
+                                <figure class="figure">
+                                    <img class="figure-img img-fluid" wicket:id="champion_portrait"/>
+                                    <figcaption class="figure-caption champion-name champion-list"
+                                                wicket:id="champion_name"></figcaption>
+                                    <figcaption class="figure-caption champion-score champion-list"
+                                                wicket:id="champion_stats"></figcaption>
+                                </figure>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2" wicket:id="top_chest_champions_bottom">
+                            <a wicket:id="champion_link">
+                                <figure class="figure">
+                                    <img class="figure-img img-fluid" wicket:id="champion_portrait"/>
+                                    <figcaption class="figure-caption champion-name champion-list"
+                                                wicket:id="champion_name"></figcaption>
+                                    <figcaption class="figure-caption champion-score champion-list"
+                                                wicket:id="champion_stats"></figcaption>
+                                </figure>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</wicket:extend>
+</body>
+</html>

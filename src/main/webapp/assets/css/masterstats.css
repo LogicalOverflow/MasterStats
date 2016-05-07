@@ -1,0 +1,23 @@
+#content {
+    margin-bottom: 60px;
+}
+
+.champion-name, .champion-title {
+    font-weight: bold;
+}
+
+.summoner-name {
+    font-weight: bolder;
+}
+
+.summoner-rank {
+    font-weight: bold;
+}
+
+.chestless-title {
+    text-anchor: middle;
+    font-size: 18px;
+    color: #333333;
+    font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
+    padding-bottom: 5px;
+}
