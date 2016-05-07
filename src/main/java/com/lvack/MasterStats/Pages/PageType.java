@@ -10,7 +10,7 @@ import org.apache.wicket.markup.html.WebPage;
  */
 
 /**
- * simple imprint for juristic reasons
+ * simple enum of pages in the navbar
  */
 public enum PageType {
     HOME(HomePage.class, "Home"),
