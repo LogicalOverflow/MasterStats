@@ -163,7 +163,7 @@ filtering.
 
 ### Respecting Rate Limits
 As both the Riot API as well as the reads and writes to DynamoDB are limited I had to ensure I do not
-run too many requests parallel. After some research I found [Guavas RateLimiter](http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/util/concurrent/RateLimiter.html),
+run too many requests too fast. After some research I found [Guavas RateLimiter](http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/util/concurrent/RateLimiter.html),
 which does exactly what I need. I created an instance per API region amd called the rate limiters
 acquire to wait for available capacity.
 
