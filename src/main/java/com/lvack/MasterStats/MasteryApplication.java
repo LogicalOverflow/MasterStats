@@ -1,5 +1,6 @@
 package com.lvack.MasterStats;
 
+import com.lvack.MasterStats.Db.DataManager;
 import com.lvack.MasterStats.Jobs.CacheUpdateJob;
 import com.lvack.MasterStats.Jobs.SummonerCrawlRunnable;
 import com.lvack.MasterStats.Jobs.UpdateJob;
@@ -109,8 +110,7 @@ public class MasteryApplication extends WebApplication {
             log.info("Starting overall summoner statistic update thread");
 
             // start a thread to update the overall summoner statistic
-            Runnable overallRunnable = new SummonerCrawlRunnable();
-            Thread overallThread = new Thread(overallRunnable);
+            Thread overallThread = new Thread(DataManager::generateOverallSummonerStatistic);
             overallThread.setName("startupOverallSummonerStatisticUpdateThread");
             overallThread.start();
         }

@@ -305,6 +305,7 @@ public class DataManager {
         Map<Long, String> idKeyMap = new HashMap<>();
 
         // iterate over all champion statistics in the db and save them to the local cache maps
+        // only get one statistic at a time, to ensure rate limits are not exceeded, as objects are large
         scanPages(ChampionStatisticItem.class, new DynamoDBScanExpression().withLimit(1),
                 DBTable.CHAMPION_STATISTIC.getReadLimiter(), c -> statistics.put(c.getKeyName().toLowerCase(), c));
 
