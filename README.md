@@ -13,7 +13,7 @@ for the web interface and storing the data in an AWS DynamoDB. Maven is used as 
 system. The live demo is deployed using AWS Beanstalk. A running demo can be found at
 http://masterstats-default.eu-central-1.elasticbeanstalk.com/.
 
-# Setting Up
+## Setting Up
 First of all you need to create the 5 DynamoDB tables:
 * champion
   * primary key (read capacity: 1, write capacity: 1):
@@ -67,7 +67,7 @@ As new summoners are collected using the existing summoners in the database,
 you will have to add some from each region by hand to the database. The easiest
 way to do this is to just search for them on your instance.
 
-# Technology
+## Technology
 
 I use [Tomcat](http://tomcat.apache.org/), [Wicket](http://wicket.apache.org/) and mainly because I
 already have experience using  them. [AWS DynamoDB](https://aws.amazon.com/dynamodb) is used, because it
@@ -92,14 +92,14 @@ asynchronous and scheduled calls.
 [Slf4j](http://www.slf4j.org/) and [Log4j](http://logging.apache.org/log4j) are used for logging, just
 because I already had some experience using them.
 
-# Code Documentation and Comments
+## Code Documentation and Comments
 
 The whole code (except some simple data classes) is commented for easier reading
 and understanding, so if you want to know how anything works, just look at
 the code. If any questions crop up, feel free to contact me so I can clarify
 the comments.
 
-# Challenges
+## Challenges
 
 ### Storing the data
 While working on the project, one of the challenges I encountered, was how to store
