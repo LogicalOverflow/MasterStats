@@ -541,7 +541,7 @@ public class DataManager {
     }
 
     /**
-     * generates an overall statistic on the summoners in the db
+     * generates an overall statistic on the summoners in the db and store it in the db and the local cache
      */
     public static void generateOverallSummonerStatistic() {
         final HashMap<String, Integer> summonerCounts = new HashMap<>();
@@ -587,7 +587,9 @@ public class DataManager {
         DBTable.SUMMONER_STATISTIC.getWriteLimiter().acquire();
         dynamoDBMapper.save(item);
 
-        log.info("Generated a new overall summoner statistic and stored it in the db");
+        PageDataProvider.overallSummonerStatisticItem = item;
+
+        log.info("Generated a new overall summoner statistic and stored it in the db and the local cache");
     }
 
     /**
