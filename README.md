@@ -45,9 +45,9 @@ First of all you need to create the 5 DynamoDB tables:
     * partition key: summonerKey (string)
     * sort key: summonerName (string)
 
-When you want to use other table/index names and/or capacities you must also
-update the DBTable enum (Db package) and the matching DataClass (Db package)
-accordingly.
+When you want to use other table/index names you must also update the DBTable
+enum and the matching DataClass (all in the Db package) accordingly. If you use
+different capacities, the code will automatically use them.
 
 Next, you must create 2 properties files in the folder src/main/resources:
 * api.properties: must contain the following properties:
@@ -154,4 +154,7 @@ As both the Riot API as well as the reads and writes to DynamoDB are limited I h
 run too many requests parallel. After some research I found Guavas RateLimiter, which does exactly
 what I need. I created an instance per API region and two per database table (read and write) and
 whenever an API request is send, the rate limiters acquire is called to wait for available capacity.
-The same happens for every read and write to DynamoDB.
+For DynamoDB rate limiters are used as well, but here the limits are requested directly using the AWS
+API. This way, when the capacities of a table are changed, the application adapts its rate limiters.
+The rate limiters are the first thing updated every night, making all these updates always use up-to-date
+rate limits.
