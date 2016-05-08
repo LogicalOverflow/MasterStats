@@ -78,7 +78,7 @@ public class MasteryApplication extends WebApplication {
 
                 Trigger cacheUpdateTrigger = TriggerBuilder.newTrigger()
                         .withIdentity("defaultCacheUpdaterTrigger", "cacheUpdater")
-                        .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(3, 50))
+                        .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(3, 30))
                         .build();
 
                 scheduler.scheduleJob(cacheUpdateJob, cacheUpdateTrigger);
