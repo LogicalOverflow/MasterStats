@@ -27,6 +27,7 @@ public class LeagueApi extends RiotSubApi {
         WebTarget target = getFunctionTarget("by-summoner/{summonerIds}")
                 .resolveTemplate("summonerIds", RiotApiUtils.arrayToCommaSeparatedList(summonerIds));
         return processApiResponse(new RiotApiResponse<>(riotApi.prepareRequest(target),
-                new TypeToken<HashMap<String, List<LeagueDto>>>() {}.getType()));
+                new TypeToken<HashMap<String, List<LeagueDto>>>() {
+                }.getType()));
     }
 }

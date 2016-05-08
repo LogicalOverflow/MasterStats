@@ -13,11 +13,12 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * generic dynamo db marshaller using gson to marshall and unmarshall objects
+ *
  * @param <K> type of objects to be marshalled
  */
 @Slf4j
 public class GsonMarshaller<K> implements DynamoDBMarshaller<K> {
-    protected Gson gson = GsonProvider.getGSON();
+    protected final Gson gson = GsonProvider.getGSON();
 
     @Override
     public String marshall(K map) {

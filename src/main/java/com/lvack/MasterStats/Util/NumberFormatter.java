@@ -14,7 +14,7 @@ import java.text.NumberFormat;
  * formatter to format numbers on web pages
  */
 public class NumberFormatter {
-    public static final DecimalFormat FORMAT = getFormat();
+    private static final DecimalFormat FORMAT = getFormat();
 
     private static DecimalFormat getFormat() {
         DecimalFormat decimalFormat = (DecimalFormat) NumberFormat.getInstance();

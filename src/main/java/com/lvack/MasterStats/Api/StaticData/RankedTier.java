@@ -26,6 +26,7 @@ public enum RankedTier {
 
     private final ColorReference color;
     private final int id;
+
     RankedTier(ColorReference color, int id) {
         this.color = color;
         this.id = id;
@@ -33,6 +34,7 @@ public enum RankedTier {
 
     /**
      * returns the tier with the given name, if none exists UNRANKED is returned
+     *
      * @param name the name of the tier
      * @return the tier object for the given name
      */

@@ -20,9 +20,8 @@ public class StaticDataApi extends RiotSubApi {
         super(BASE_PATH, riotApi);
     }
 
-    public RiotApiResponse<ChampionListDto> getChampions(RiotEndpoint region) {
+    public RiotApiResponse<ChampionListDto> getChampions() {
         WebTarget target = getFunctionTarget("champion")
-                .resolveTemplate("region", region.name().toLowerCase())
                 .queryParam("champData", "image");
         return processApiResponse(new RiotApiResponse<>(riotApi.prepareRequest(target), ChampionListDto.class));
     }

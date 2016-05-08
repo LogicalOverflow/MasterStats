@@ -11,7 +11,8 @@ import com.lvack.MasterStats.Api.StaticData.RiotEndpoint;
 public class SummonerKeyUtils {
     /**
      * converts an summoner id and endpoint to a summonerKey (convenience method for db access)
-     * @param id the summoners id
+     *
+     * @param id       the summoners id
      * @param endpoint the endpoint of the summoners region
      * @return the summonerKey for the summoner
      */
@@ -21,7 +22,8 @@ public class SummonerKeyUtils {
 
     /**
      * converts an summoner id and endpoint's name to a summonerKey (convenience method for db access)
-     * @param id the summoners id
+     *
+     * @param id       the summoners id
      * @param endpoint the name of the endpoint of the summoners region
      * @return the summonerKey for the summoner
      */
@@ -31,6 +33,7 @@ public class SummonerKeyUtils {
 
     /**
      * extracts the summoner id and endpoint from a summoner key (convenience method for db access)
+     *
      * @param key the summonerKey of the summoner
      * @return a SummonerKey object with region and id set matching the data extracted from the key
      */

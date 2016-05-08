@@ -13,7 +13,8 @@ public class RiotApiUtils {
     /**
      * converts a list of objects to a comma separated list
      * objects are converted to stings using the toString() method
-     * @param es the objects of the list
+     *
+     * @param es  the objects of the list
      * @param <T> the type of the objects
      * @return a string representing the comma separated list
      */

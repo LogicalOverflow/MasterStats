@@ -19,13 +19,14 @@ import java.util.Properties;
  */
 @Slf4j
 public class RiotApiFactory {
+    private static final HashMap<RiotEndpoint, RiotApi> riotApis = new HashMap<>();
     private static String apiKey;
     private static boolean devKey = false;
-    private static HashMap<RiotEndpoint, RiotApi> riotApis = new HashMap<>();
 
     /**
      * creates a new riot api instance with the given region if none exists for the region
      * otherwise just returns the instance for the given region
+     *
      * @param endpoint the endpoint the riot api instance should use
      * @return the riot api instance
      */
@@ -39,6 +40,7 @@ public class RiotApiFactory {
 
     /**
      * loads the api key if needed and returns it
+     *
      * @return the api key
      */
     private static String getApiKey() {
@@ -48,6 +50,7 @@ public class RiotApiFactory {
 
     /**
      * loads the dev key property if needed and returns it
+     *
      * @return whether the api key is a development key
      */
     private static boolean isDevKey() {

@@ -12,7 +12,7 @@ import com.google.gson.Gson;
  * static class to provide the global gson instance
  */
 public class GsonProvider {
-    private static Gson GSON = new Gson();
+    private static final Gson GSON = new Gson();
 
     public static Gson getGSON() {
         return GSON;

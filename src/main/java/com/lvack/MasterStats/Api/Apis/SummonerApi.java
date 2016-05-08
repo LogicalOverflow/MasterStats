@@ -1,10 +1,10 @@
 package com.lvack.MasterStats.Api.Apis;
 
+import com.google.gson.reflect.TypeToken;
 import com.lvack.MasterStats.Api.ResponseClasses.SummonerDto;
 import com.lvack.MasterStats.Api.RiotApi;
 import com.lvack.MasterStats.Api.RiotApiResponse;
 import com.lvack.MasterStats.Api.RiotApiUtils;
-import com.google.gson.reflect.TypeToken;
 
 import javax.ws.rs.client.WebTarget;
 import java.util.HashMap;
@@ -27,7 +27,8 @@ public class SummonerApi extends RiotSubApi {
         WebTarget target = getFunctionTarget("by-name/{names}")
                 .resolveTemplate("names", RiotApiUtils.arrayToCommaSeparatedList(names));
         return processApiResponse(new RiotApiResponse<>(riotApi.prepareRequest(target),
-                new TypeToken<HashMap<String, SummonerDto>>() {}.getType()));
+                new TypeToken<HashMap<String, SummonerDto>>() {
+                }.getType()));
     }
 
     public RiotApiResponse<Map<String, SummonerDto>> getSummonersByIds(Long... ids) {
@@ -35,6 +36,7 @@ public class SummonerApi extends RiotSubApi {
                 .resolveTemplate("ids", RiotApiUtils.arrayToCommaSeparatedList(ids));
 
         return processApiResponse(new RiotApiResponse<>(riotApi.prepareRequest(target),
-                new TypeToken<HashMap<String, SummonerDto>>() {}.getType()));
+                new TypeToken<HashMap<String, SummonerDto>>() {
+                }.getType()));
     }
 }

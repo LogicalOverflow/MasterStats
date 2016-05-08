@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ReturnConsumedCapacity;
+import com.google.common.util.concurrent.RateLimiter;
 import com.lvack.MasterStats.Api.ResponseClasses.*;
 import com.lvack.MasterStats.Api.RiotApi;
 import com.lvack.MasterStats.Api.RiotApiFactory;
@@ -173,7 +174,7 @@ public class DataManager {
         // request list of all champions
         RiotApi riotApi = RiotApiFactory.getApi(RiotEndpoint.GLOBAL);
         ChampionListDto championListDto;
-        RiotApiResponse<ChampionListDto> champions = riotApi.getStaticDataApi().getChampions(RiotEndpoint.EUW);
+        RiotApiResponse<ChampionListDto> champions = riotApi.getStaticDataApi().getChampions();
 
         // if list of all champions is null, abort (api probably unavailable at the moment)
         if ((championListDto = champions.get()) == null) return;
@@ -304,10 +305,10 @@ public class DataManager {
         Map<Long, String> idKeyMap = new HashMap<>();
 
         // iterate over all champion statistics in the db and save them to the local cache maps
-        scanPages(ChampionStatisticItem.class, new DynamoDBScanExpression().withLimit(1), DBTable.CHAMPION_STATISTIC,
-                c -> statistics.put(c.getKeyName().toLowerCase(), c));
+        scanPages(ChampionStatisticItem.class, new DynamoDBScanExpression().withLimit(1),
+                DBTable.CHAMPION_STATISTIC.getReadLimiter(), c -> statistics.put(c.getKeyName().toLowerCase(), c));
 
-        scanPages(ChampionItem.class, new DynamoDBScanExpression(), DBTable.CHAMPION,
+        scanPages(ChampionItem.class, new DynamoDBScanExpression(), DBTable.CHAMPION.getReadLimiter(),
                 c -> idKeyMap.put(c.getChampionId(), c.getKeyName()));
 
         // store maps in local cache
@@ -533,7 +534,7 @@ public class DataManager {
         List<ChampionItem> items = new ArrayList<>();
 
         // iterate over all champions in the db and add them to the list of champions
-        scanPages(ChampionItem.class, new DynamoDBScanExpression(), DBTable.CHAMPION, items::add);
+        scanPages(ChampionItem.class, new DynamoDBScanExpression(), DBTable.CHAMPION.getReadLimiter(), items::add);
 
         return items;
     }
@@ -549,7 +550,7 @@ public class DataManager {
         log.info("Generating a new overall summoner statistic");
 
         // iterate over all summoners in the db and analyze the data
-        scanPages(SummonerItem.class, new DynamoDBScanExpression(), DBTable.SUMMONER, (s) -> {
+        scanPages(SummonerItem.class, new DynamoDBScanExpression(), DBTable.SUMMONER.getReadLimiter(), (s) -> {
             // get summoners region
             String region = summonerKeyToIdRegion(s.getSummonerKey()).getRegion().name();
 
@@ -607,11 +608,11 @@ public class DataManager {
      *
      * @param clazz          class of the objects
      * @param scanExpression expression for the scan
-     * @param table          the table whose read limiter limits the read speed
+     * @param limiter        the read limiter limiting the amount of requests
      * @param action         the function to call for each object
      * @param <T>            the type of the objects
      */
-    private static <T> void scanPages(Class<T> clazz, DynamoDBScanExpression scanExpression, DBTable table, Consumer<? super T> action) {
+    private static <T> void scanPages(Class<T> clazz, DynamoDBScanExpression scanExpression, RateLimiter limiter, Consumer<? super T> action) {
         // define pageScan and add consumed capacity to scan expression
         ScanResultPage<T> pageScan;
         scanExpression.setReturnConsumedCapacity(ReturnConsumedCapacity.TOTAL);
@@ -623,7 +624,7 @@ public class DataManager {
         int count = 0;
         do {
             // acquire permits and scan
-            table.getReadLimiter().acquire(permitsToConsume);
+            limiter.acquire(permitsToConsume);
             pageScan = dynamoDBMapper.scanPage(clazz, scanExpression);
 
             // update page scan
@@ -741,7 +742,7 @@ public class DataManager {
         List<SummonerStatisticItem> toDelete = new ArrayList<>();
         // scan the summoner statistics in the db and add all statistics
         // older than the up-to-date duration to the to delete list
-        scanPages(SummonerStatisticItem.class, new DynamoDBScanExpression(), DBTable.CHAMPION_STATISTIC,
+        scanPages(SummonerStatisticItem.class, new DynamoDBScanExpression(), DBTable.CHAMPION_STATISTIC.getReadLimiter(),
                 (s) -> {
                     if (System.currentTimeMillis() - s.getLastUpdated() > UP_TO_DATE_DURATION) toDelete.add(s);
                 });

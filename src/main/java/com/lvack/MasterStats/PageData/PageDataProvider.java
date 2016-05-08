@@ -26,7 +26,7 @@ import java.util.Map;
  */
 @Slf4j
 public class PageDataProvider {
-    public static CircularFifoQueue<Pair<String, SummonerStatisticItem>> summonerStatisticCache = new CircularFifoQueue<>(1024);
+    public static final CircularFifoQueue<Pair<String, SummonerStatisticItem>> summonerStatisticCache = new CircularFifoQueue<>(1024);
     public static Map<String, ChampionStatisticItem> championStatisticMap = new HashMap<>();
     public static Map<Long, String> championIdKeyNameMap = new HashMap<>();
     public static OverallSummonerStatisticItem overallSummonerStatisticItem;
@@ -34,6 +34,7 @@ public class PageDataProvider {
 
     /**
      * gets the champion statistic for a champion from the local cache, returns null if it was not found
+     *
      * @param championId the id of the champion
      * @return the given champions statistic, null if not found in local cache
      */
@@ -45,8 +46,9 @@ public class PageDataProvider {
 
     /**
      * gets or generates the summoner statistic for a given summoner
+     *
      * @param summonerName the summoners name
-     * @param region the summoners region
+     * @param region       the summoners region
      * @return a pair with the summoners name key as key and the statistic as value
      */
     public static Pair<String, SummonerStatisticItem> generateSummonerStatistic(String summonerName, RiotEndpoint region) {

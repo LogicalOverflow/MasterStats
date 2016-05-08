@@ -19,18 +19,19 @@ public class RiotApi {
     private final String apiKey;
     private final Client client;
     private final RiotEndpoint endpoint;
+    private final RateLimiter rateLimiter;
     private SummonerApi summonerApi;
     private ChampionMasteryApi championMasteryApi;
     private StaticDataApi staticDataApi;
     private MatchApi matchApi;
     private LeagueApi leagueApi;
     private MatchListApi matchListApi;
-    private RateLimiter rateLimiter;
 
     /**
      * create a rate limiter and a jersey client to manage request
+     *
      * @param endpoint the endpoint to send the requests to
-     * @param apiKey the api key to use
+     * @param apiKey   the api key to use
      */
     public RiotApi(RiotEndpoint endpoint, String apiKey, double rate) {
         this.endpoint = endpoint;
@@ -42,6 +43,7 @@ public class RiotApi {
 
     /**
      * returns a async invoke provider for a given target which set api key, region and platform id for the target
+     *
      * @param target the target to make the requests to
      * @return a async invoke provider for a given target
      */
@@ -58,6 +60,7 @@ public class RiotApi {
 
     /**
      * creates a new web target for the endpoint
+     *
      * @return a new web target
      */
     public WebTarget buildEndpointTarget() {
@@ -71,6 +74,7 @@ public class RiotApi {
     /**
      * the following functions are all getter for the sub apis which create the api if it is not set already
      * and returns it
+     *
      * @return the sub api
      */
     public SummonerApi getSummonerApi() {

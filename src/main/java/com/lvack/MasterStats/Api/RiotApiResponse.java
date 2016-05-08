@@ -18,15 +18,16 @@ import java.util.concurrent.Future;
 
 /**
  * class representing a response by the riot api
+ *
  * @param <T> type of the response object
  */
 public class RiotApiResponse<T> {
     private static final Gson GSON = GsonProvider.getGSON();
     private final Class<T> clazz;
     private final Type type;
+    private final AsyncInvokerProvider builder;
     private RateLimiter rateLimiter;
     private Future<Response> responseFuture;
-    private AsyncInvokerProvider builder;
     private Response response;
 
     public RiotApiResponse(AsyncInvokerProvider builder, Type type) {
@@ -66,6 +67,7 @@ public class RiotApiResponse<T> {
     /**
      * reads the response and if the request was successful returns the object acquired
      * otherwise returns null
+     *
      * @return the response object
      */
     public T get() {
@@ -86,12 +88,14 @@ public class RiotApiResponse<T> {
 
     /**
      * reads the response and returns it
+     *
      * @return the response
      */
     public Response getResponse() {
         readResponse();
         return response;
     }
+
     public void setRateLimiter(RateLimiter rateLimiter) {
         this.rateLimiter = rateLimiter;
     }

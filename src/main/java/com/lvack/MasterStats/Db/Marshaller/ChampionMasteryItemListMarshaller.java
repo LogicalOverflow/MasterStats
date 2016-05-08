@@ -18,6 +18,7 @@ import java.util.List;
 public class ChampionMasteryItemListMarshaller extends GsonMarshaller<List<ChampionMasteryItem>> {
     @Override
     public List<ChampionMasteryItem> unmarshall(Class<List<ChampionMasteryItem>> aClass, String json) {
-        return gson.fromJson(json, new TypeToken<List<ChampionMasteryItem>>() {}.getType());
+        return gson.fromJson(json, new TypeToken<List<ChampionMasteryItem>>() {
+        }.getType());
     }
 }

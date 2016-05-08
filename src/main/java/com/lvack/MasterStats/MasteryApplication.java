@@ -71,27 +71,27 @@ public class MasteryApplication extends WebApplication {
             try {
                 scheduler = StdSchedulerFactory.getDefaultScheduler();
 
-                JobDetail nightlyJob = JobBuilder.newJob(CacheUpdateJob.class)
+                JobDetail cacheUpdateJob = JobBuilder.newJob(CacheUpdateJob.class)
                         .withIdentity("defaultCacheUpdater", "cacheUpdater")
                         .build();
 
-                Trigger nightlyTrigger = TriggerBuilder.newTrigger()
+                Trigger cacheUpdateTrigger = TriggerBuilder.newTrigger()
                         .withIdentity("defaultCacheUpdaterTrigger", "cacheUpdater")
                         .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(3, 50))
                         .build();
 
-                scheduler.scheduleJob(nightlyJob, nightlyTrigger);
+                scheduler.scheduleJob(cacheUpdateJob, cacheUpdateTrigger);
 
-                JobDetail championJob = JobBuilder.newJob(UpdateJob.class)
+                JobDetail updateJob = JobBuilder.newJob(UpdateJob.class)
                         .withIdentity("defaultUpdater", "updater")
                         .build();
 
-                Trigger championTrigger = TriggerBuilder.newTrigger()
+                Trigger updateTrigger = TriggerBuilder.newTrigger()
                         .withIdentity("defaultUpdaterTrigger", "updater")
                         .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(4, 0))
                         .build();
 
-                scheduler.scheduleJob(championJob, championTrigger);
+                scheduler.scheduleJob(updateJob, updateTrigger);
 
                 scheduler.start();
             } catch (SchedulerException e) {
@@ -105,6 +105,14 @@ public class MasteryApplication extends WebApplication {
             Thread summonerThread = new Thread(summonerCrawlRunnable);
             summonerThread.setName("defaultSummonerCrawlThread");
             summonerThread.start();
+
+            log.info("Starting overall summoner statistic update thread");
+
+            // start a thread to update the overall summoner statistic
+            Runnable overallRunnable = new SummonerCrawlRunnable();
+            Thread overallThread = new Thread(overallRunnable);
+            overallThread.setName("startupOverallSummonerStatisticUpdateThread");
+            overallThread.start();
         }
 
         log.info("Application initialization completed");

@@ -11,6 +11,7 @@ import lombok.Data;
 
 /**
  * simplistic utility class representing a key-value pair
+ *
  * @param <K> type of the key
  * @param <V> type of the value
  */

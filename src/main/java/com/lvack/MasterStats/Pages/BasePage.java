@@ -29,22 +29,23 @@ import java.util.stream.Collectors;
  * and the active page (if provided) all other page inherit form this page
  */
 public class BasePage extends WebPage {
-    private String selectedRegion = RiotEndpoint.DEFAULT_ENFPOINT.name();
+    private String selectedRegion = RiotEndpoint.DEFAULT_ENDPOINT.name();
 
-    public BasePage(PageParameters parameters, String subPageTitle, PageType activePage) {
+    protected BasePage(PageParameters parameters, String subPageTitle, PageType activePage) {
         super(parameters);
         // set the page title if provided
         add(new Label("page_title", String.format("MasterStats - %s", subPageTitle)));
         loadNavbar(activePage);
     }
 
-    public BasePage(PageParameters parameters, PageType activePage) {
+    protected BasePage(PageParameters parameters, PageType activePage) {
         super(parameters);
         loadNavbar(activePage);
     }
 
     /**
      * generates the navbar and mark the active page
+     *
      * @param activePage page to be marked active (null for no active page)
      */
     private void loadNavbar(final PageType activePage) {

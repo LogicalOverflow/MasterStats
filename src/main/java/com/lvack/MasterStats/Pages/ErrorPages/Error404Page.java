@@ -3,8 +3,6 @@ package com.lvack.MasterStats.Pages.ErrorPages;
 import com.lvack.MasterStats.Pages.BasePage;
 import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.request.http.WebRequest;
-import org.apache.wicket.request.http.WebResponse;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import java.io.Serializable;

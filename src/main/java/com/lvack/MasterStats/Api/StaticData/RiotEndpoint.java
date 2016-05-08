@@ -25,7 +25,7 @@ public enum RiotEndpoint {
     GLOBAL("", "global.api.pvp.net");
 
     public static final RiotEndpoint[] PLAYABLE_ENDPOINTS = new RiotEndpoint[]{BR, EUNE, EUW, JP, KR, LAN, LAS, NA, OCE, TR, RU};
-    public static final RiotEndpoint DEFAULT_ENFPOINT = EUW;
+    public static final RiotEndpoint DEFAULT_ENDPOINT = EUW;
     private final String platformId;
     private final String host;
 

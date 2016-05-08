@@ -22,6 +22,7 @@ abstract class RiotSubApi {
 
     /**
      * returns a web target for with the correct endpoint and provided path
+     *
      * @param path path for the web target
      * @return a fresh web target
      */
@@ -31,8 +32,9 @@ abstract class RiotSubApi {
 
     /**
      * processes a riot api response by setting the rate limiter and sending the get request
+     *
      * @param response the response to process
-     * @param <T> the return type of the response
+     * @param <T>      the return type of the response
      * @return the process response
      */
     protected <T> RiotApiResponse<T> processApiResponse(RiotApiResponse<T> response) {

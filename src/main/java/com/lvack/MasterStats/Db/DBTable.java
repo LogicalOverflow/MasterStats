@@ -1,6 +1,11 @@
 package com.lvack.MasterStats.Db;
 
+import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.model.TableDescription;
 import com.google.common.util.concurrent.RateLimiter;
+import com.lvack.MasterStats.Util.Pair;
+
+import java.util.HashMap;
 
 /**
  * DBTableClass for MasterStats
@@ -12,19 +17,54 @@ import com.google.common.util.concurrent.RateLimiter;
  * enum of all db tables with their respective name and rate limiters to control request counts
  */
 public enum DBTable {
-    CHAMPION("champion", 1, 1),
-    CHAMPION_MASTERY("championMastery", 10, 10),
-    CHAMPION_STATISTIC("championStatistic", 1, 1),
-    SUMMONER("summoner", 5, 1),
-    SUMMONER_STATISTIC("summonerStatistic", 1, 1);
+    CHAMPION("champion"),
+    CHAMPION_MASTERY("championMastery"),
+    CHAMPION_STATISTIC("championStatistic"),
+    SUMMONER("summoner"),
+    SUMMONER_STATISTIC("summonerStatistic");
     private final String tableName;
-    private final RateLimiter readLimiter;
-    private final RateLimiter writeLimiter;
+    private RateLimiter readLimiter;
+    private RateLimiter writeLimiter;
+    private HashMap<String, Pair<RateLimiter, RateLimiter>> indexRateLimiter;
 
-    DBTable(String tableName, double readLimit, double writeLimit) {
+    DBTable(String tableName) {
         this.tableName = tableName;
-        this.readLimiter = RateLimiter.create(readLimit);
-        this.writeLimiter = RateLimiter.create(writeLimit);
+        this.indexRateLimiter = new HashMap<>();
+        updateRateLimits();
+    }
+
+    /**
+     * Updates the read and write capacities for all table
+     */
+    public static void updateAllRateLimits() {
+        for (DBTable dbTable : DBTable.values()) dbTable.updateRateLimits();
+    }
+
+    /**
+     * Updates the read and write capacities for the table
+     */
+    public void updateRateLimits() {
+        // request table data from the db
+        DynamoDB dynamoDB = DBConnector.getInstance().getDynamoDB();
+        TableDescription table = dynamoDB.getTable(tableName).describe();
+
+        // get table read and write limiter
+        Long readCapacityUnits = table.getProvisionedThroughput().getReadCapacityUnits();
+        Long writeCapacityUnits = table.getProvisionedThroughput().getWriteCapacityUnits();
+
+        // update rate limits
+        readLimiter = RateLimiter.create(readCapacityUnits);
+        writeLimiter = RateLimiter.create(writeCapacityUnits);
+
+        // check if secondary indexes exist
+        if (table.getGlobalSecondaryIndexes() == null) return;
+        // iterate over all indexes and add them to the map of indexes
+        table.getGlobalSecondaryIndexes().forEach(i -> {
+            Pair<RateLimiter, RateLimiter> rateLimiters = new Pair<>(
+                    RateLimiter.create(i.getProvisionedThroughput().getReadCapacityUnits()),
+                    RateLimiter.create(i.getProvisionedThroughput().getWriteCapacityUnits()));
+            indexRateLimiter.put(i.getIndexName(), rateLimiters);
+        });
     }
 
     public String getTableName() {
@@ -37,5 +77,17 @@ public enum DBTable {
 
     public RateLimiter getWriteLimiter() {
         return writeLimiter;
+    }
+
+    public RateLimiter getIndexReadLimiter(String indexName) {
+        return getIndexRateLimiterPair(indexName).getKey();
+    }
+
+    public RateLimiter getIndexWriteLimiter(String indexName) {
+        return getIndexRateLimiterPair(indexName).getValue();
+    }
+
+    private Pair<RateLimiter, RateLimiter> getIndexRateLimiterPair(String indexName) {
+        return indexRateLimiter.get(indexName);
     }
 }

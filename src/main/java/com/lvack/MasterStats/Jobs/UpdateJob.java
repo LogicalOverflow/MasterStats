@@ -17,6 +17,7 @@ public class UpdateJob implements Job {
     /**
      * generates the champion statistics for all champions, removes old summoner statistics and
      * generates a new overall statistic
+     *
      * @param context QuartzScheduler context (not used)
      * @throws JobExecutionException QuartzScheduler exception (not used)
      */

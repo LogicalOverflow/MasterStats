@@ -1,7 +1,7 @@
 package com.lvack.MasterStats.Api.Apis;
 
-import com.lvack.MasterStats.Api.ResponseClasses.ChampionMasteryDto;
 import com.google.gson.reflect.TypeToken;
+import com.lvack.MasterStats.Api.ResponseClasses.ChampionMasteryDto;
 import com.lvack.MasterStats.Api.RiotApi;
 import com.lvack.MasterStats.Api.RiotApiResponse;
 
