@@ -34,8 +34,8 @@ public class HomePage extends StaticPage {
         playerOptions.setTooltip(new Tooltip());
         playerOptions.setTitle(new Title("Players analyzed"));
 
-        // make chart a zoomable pie chart with a height of 800
-        playerOptions.setChartOptions(new ChartOptions().setType(SeriesType.PIE).setHeight(800).setZoomType(ZoomType.XY));
+        // make chart a pie chart with a height of 800
+        playerOptions.setChartOptions(new ChartOptions().setType(SeriesType.PIE).setHeight(800));
 
         // disable shadows for the chart
         playerOptions.setPlotOptions(new PlotOptionsChoice().setPie(new PlotOptions().setShadow(false)));
