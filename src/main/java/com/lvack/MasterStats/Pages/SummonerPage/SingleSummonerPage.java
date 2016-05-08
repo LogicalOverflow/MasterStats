@@ -33,6 +33,7 @@ import org.wicketstuff.annotation.mount.MountPath;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -91,8 +92,12 @@ public class SingleSummonerPage extends BasePage {
         add(new Label("summoner_level", String.format("Summoner Level: %d", summonerItem.getSummonerLevel())));
 
         // set summoner profile icon
+        String version = PageDataProvider.version;
+        // if version is not set, default to 6.9.1
+        version = version == null ? "6.9.1" : version;
+        version = Objects.equals(version, "null") ? "6.9.1" : version;
         add(new ExternalImage("summoner_portrait", String.format(
-                "http://ddragon.leagueoflegends.com/cdn/%s/img/profileicon/%d.png", PageDataProvider.version,
+                "http://ddragon.leagueoflegends.com/cdn/%s/img/profileicon/%d.png", version,
                 summonerItem.getProfileIconId())));
 
         // get the 3 champions with the highest mastery score and add them to the top champions region

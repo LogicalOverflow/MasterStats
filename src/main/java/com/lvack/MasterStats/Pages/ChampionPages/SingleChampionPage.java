@@ -145,8 +145,8 @@ public class SingleChampionPage extends StaticPage {
                 .setFunction("return this.series.name + ' - ' + this.x + ': ' + this.y")));
         levelOptions.setTitle(new Title("Champion Levels"));
 
-        // make chart an area chart
-        levelOptions.setChartOptions(new ChartOptions().setType(SeriesType.AREA));
+        // make chart a zoomable area chart
+        levelOptions.setChartOptions(new ChartOptions().setType(SeriesType.AREA).setZoomType(ZoomType.XY));
 
         // make chart stacked, with 1 px wide lines and with circles as markers which
         // are only shown when the mouse hovers over the data point
@@ -185,8 +185,8 @@ public class SingleChampionPage extends StaticPage {
                 .setFunction("return this.series.name + ' - ' + this.x + ': ' + this.y")));
         scoreOptions.setTitle(new Title("Player Scores"));
 
-        // make chart an area chart
-        scoreOptions.setChartOptions(new ChartOptions().setType(SeriesType.AREA));
+        // make chart a zoomable area chart
+        scoreOptions.setChartOptions(new ChartOptions().setType(SeriesType.AREA).setZoomType(ZoomType.XY));
 
         // make chart stacked, with 1 px wide lines and with circles as markers which
         // are only shown when the mouse hovers over the data point
