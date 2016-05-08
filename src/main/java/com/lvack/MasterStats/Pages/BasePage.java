@@ -14,6 +14,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
+import java.time.Year;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,12 +36,16 @@ public class BasePage extends WebPage {
         super(parameters);
         // set the page title if provided
         add(new Label("page_title", String.format("MasterStats - %s", subPageTitle)));
+        // set copyright year
+        add(new Label("year", Year.now().getValue()));
         loadNavbar(activePage);
     }
 
     protected BasePage(PageParameters parameters, PageType activePage) {
         super(parameters);
         loadNavbar(activePage);
+        // set copyright year
+        add(new Label("year", Year.now().getValue()));
     }
 
     /**
