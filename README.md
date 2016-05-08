@@ -13,7 +13,7 @@ for the web interface and storing the data in an AWS DynamoDB. Maven is used as 
 system. The live demo is deployed using AWS Beanstalk. A running demo can be found at
 http://masterstats-default.eu-central-1.elasticbeanstalk.com/.
 
-# Getting your own Instance
+# Setting Up
 First of all you need to create the 5 DynamoDB tables:
 * champion
   * primary key (read capacity: 1, write capacity: 1):
@@ -67,7 +67,7 @@ As new summoners are collected using the existing summoners in the database,
 you will have to add some from each region by hand to the database. The easiest
 way to do this is to just search for them on your instance.
 
-# Technologies used
+# Technology
 
 I use [Tomcat](http://tomcat.apache.org/), [Wicket](http://wicket.apache.org/) and mainly because I
 already have experience using  them. [AWS DynamoDB](https://aws.amazon.com/dynamodb) is used, because it
