@@ -69,10 +69,14 @@ way to do this is to just search for them on your instance.
 
 # Technologies used
 
-I use [Tomcat](http://tomcat.apache.org/), [Wicket](http://wicket.apache.org/) and [AWS DynamoDB](https://aws.amazon.com/dynamodb) mainly because I already have experience
-using them. [AWS Beanstalk](https://aws.amazon.com/elasticbeanstalk) is used for deployment of the live demo and was
-very easy to use, as I just needed to upload my war file to have my
-application running.
+I use [Tomcat](http://tomcat.apache.org/), [Wicket](http://wicket.apache.org/) and mainly because I
+already have experience using  them. [AWS DynamoDB](https://aws.amazon.com/dynamodb) is used, because it
+can handle all my data while remaining fast and being easily scalable. Additionally Amazon provides nice
+[Java SDK](https://aws.amazon.com/sdk-for-java/) for their web services.
+
+[AWS Beanstalk](https://aws.amazon.com/elasticbeanstalk) is used for deployment of the live demo and
+was very easy to use, as I just needed to upload my war file to have my application up and
+running.
 
 [Highcharts](http://www.highcharts.com/) is the graphing library I have chosen because it allows me to generate the graphs from the Java code without touching any CSS or HTML. And [Bootstrap](http://getbootstrap.com/) is used
 as it makes it easy to create good-looking websites.
