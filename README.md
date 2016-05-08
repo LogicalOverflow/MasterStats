@@ -78,13 +78,19 @@ can handle all my data while remaining fast and being easily scalable. Additiona
 was very easy to use, as I just needed to upload my war file to have my application up and
 running.
 
-[Highcharts](http://www.highcharts.com/) is the graphing library I have chosen because it allows me to generate the graphs from the Java code without touching any CSS or HTML. And [Bootstrap](http://getbootstrap.com/) is used
-as it makes it easy to create good-looking websites.
+[Highcharts](http://www.highcharts.com/) is the graphing library I have chosen because it allows me
+to generate the graphs from the Java code without touching any CSS or HTML. And
+[Bootstrap](http://getbootstrap.com/) is used as it makes it easy to create good-looking websites.
 
-[Lombok](https://projectlombok.org/) and [Apache Commons](https://commons.apache.org/) are used as they made my life much easier with their
-convenient annotations and functions.
+[Lombok](https://projectlombok.org/) and [Apache Commons](https://commons.apache.org/) are
+used as they made my life much easier with their convenient annotations and functions.
 
-[Slf4j](http://www.slf4j.org/) and [Log4j](http://logging.apache.org/log4j) are used for logging, just because I already had some experience using them.
+[Gunava](https://github.com/google/guava) is only used for their RateLimiter, which enables me to
+not send too many requests to the database or the Riot's API while having multithreading and many
+asynchronous and scheduled calls.
+
+[Slf4j](http://www.slf4j.org/) and [Log4j](http://logging.apache.org/log4j) are used for logging, just
+because I already had some experience using them.
 
 # Code Documentation and Comments
 
@@ -146,19 +152,25 @@ as it is more easily accessible in contrast to a hardcoded region and an option 
 ### Visualizing the data
 Even though I had my statistics, just printing them out as text does not look nice and makes it
 hard to look at and draw any conclusions. That is why I needed a way to make nice graphs using
-my data. I first tried [chartist.js](https://gionkunz.github.io/chartist-js/), but even though the library seems to be nice, getting the data
-from the Java code to the charts, styling and configuring was not something done well.
-So I started looking for alternatives and found [Wicked Charts](https://github.com/thombergs/wicked-charts), a wrapper for the JavaScript library
-[Highcharts](http://www.highcharts.com/). Using it, I was able to completely configure the charts using Java and create charts,
-looking the way I wanted them to.
+my data. I first tried [chartist.js](https://gionkunz.github.io/chartist-js/), but even though
+the library seems to be nice, getting the data from the Java code to the charts, styling and
+configuring was not something done well. So I started looking for alternatives and found
+[Wicked Charts](https://github.com/thombergs/wicked-charts), a wrapper for the JavaScript library
+[Highcharts](http://www.highcharts.com/). Using it, I was able to completely configure the charts
+using Java and create charts, looking the way I wanted them to and having features like zooming or
+filtering.
 
 
 ### Respecting Rate Limits
 As both the Riot API as well as the reads and writes to DynamoDB are limited I had to ensure I do not
-run too many requests parallel. After some research I found Guavas RateLimiter, which does exactly
-what I need. I created an instance per API region and two per database table (read and write) and
-whenever an API request is send, the rate limiters acquire is called to wait for available capacity.
-For DynamoDB rate limiters are used as well, but here the limits are requested directly using the AWS
-API. This way, when the capacities of a table are changed, the application adapts its rate limiters.
-The rate limiters are the first thing updated every night, making all these updates always use up-to-date
-rate limits.
+run too many requests parallel. After some research I found [Guavas RateLimiter](http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/util/concurrent/RateLimiter.html),
+which does exactly what I need. I created an instance per API region amd called the rate limiters
+acquire to wait for available capacity.
+
+For DynamoDB rate limiters are used as well with two rate limiters for each table and global secondary
+index (one for reading and one write for writing), and whenever an database action is performed,
+the rate limiters are used to ensure the provisioned throughput is not exceeded. Additionally,
+the rate limiters limits are requested directly from the database. This way the capacities can be
+updated and the code will automatically use the new rate limits. The local rate limits are updated
+every night as first step of the nightly data updating process, because this way these updates always
+use up-to-date rate limits.
