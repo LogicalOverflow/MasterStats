@@ -34,9 +34,7 @@ public class MasteryApplication extends WebApplication {
     private Scheduler scheduler;
     private SummonerCrawlRunnable summonerCrawlRunnable;
 
-
     @Override
-
     public Class<? extends Page> getHomePage() {
         return HomePage.class;
     }

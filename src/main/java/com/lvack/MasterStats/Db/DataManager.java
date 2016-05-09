@@ -526,6 +526,7 @@ public class DataManager {
                     retry = false;
                 } catch (ProvisionedThroughputExceededException exception) {
                     retry = true;
+                    log.info("exceeded provisioned throughput");
                 }
             }
             PageDataProvider.championStatisticMap.put(e.getKeyName().toLowerCase(), e);

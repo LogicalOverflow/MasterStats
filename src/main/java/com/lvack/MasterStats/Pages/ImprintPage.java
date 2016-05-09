@@ -4,7 +4,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.wicketstuff.annotation.mount.MountPath;
 
 /**
- * ImprintClass for MasterStats
+ * ImprintPageClass for MasterStats
  *
  * @author Leon Vack
  */
