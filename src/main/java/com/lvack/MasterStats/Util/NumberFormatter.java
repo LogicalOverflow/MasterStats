@@ -20,7 +20,7 @@ public class NumberFormatter {
         DecimalFormat decimalFormat = (DecimalFormat) NumberFormat.getInstance();
         DecimalFormatSymbols decimalFormatSymbols = decimalFormat.getDecimalFormatSymbols();
         // use hair space as group separator
-        decimalFormatSymbols.setGroupingSeparator('\u2009');
+        decimalFormatSymbols.setGroupingSeparator('\u200A');
         // use dot as decimal separator
         decimalFormatSymbols.setDecimalSeparator('.');
         // use groups of three
