@@ -23,7 +23,6 @@
     font-size: 18px;
     color: #333333;
     font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
-    padding-bottom: 5px;
 }
 
 a.footer-link, a:link.footer-link, a:visited.footer-link, a:hover.footer-link, a:active.footer-link {
@@ -33,4 +32,8 @@ a.footer-link, a:link.footer-link, a:visited.footer-link, a:hover.footer-link, a
 
 .top-buffer {
     margin-top: 40px;
+}
+
+.small-top-buffer {
+    margin-top: 10px;
 }

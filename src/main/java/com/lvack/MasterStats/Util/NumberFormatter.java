@@ -19,8 +19,8 @@ public class NumberFormatter {
     private static DecimalFormat getFormat() {
         DecimalFormat decimalFormat = (DecimalFormat) NumberFormat.getInstance();
         DecimalFormatSymbols decimalFormatSymbols = decimalFormat.getDecimalFormatSymbols();
-        // use non-breaking space as group separator
-        decimalFormatSymbols.setGroupingSeparator('\u00A0');
+        // use hair space as group separator
+        decimalFormatSymbols.setGroupingSeparator('\u2009');
         // use dot as decimal separator
         decimalFormatSymbols.setDecimalSeparator('.');
         // use groups of three

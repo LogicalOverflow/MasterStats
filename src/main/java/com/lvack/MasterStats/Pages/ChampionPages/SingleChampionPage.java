@@ -78,9 +78,11 @@ public class SingleChampionPage extends StaticPage {
             protected void populateItem(ListItem<Pair<SummonerItem, ChampionMasteryItem>> item) {
                 Pair<SummonerItem, ChampionMasteryItem> pair = item.getModelObject();
                 // create a link to the summoner
-                SummonerKey summonerKey = summonerKeyToIdRegion(pair.getKey().getSummonerKey());
+                ChampionMasteryItem championMasteryItem = pair.getValue();
+                SummonerKey summonerKey = summonerKeyToIdRegion(championMasteryItem.getSummonerKey());
                 PageParameters linkParameters = new PageParameters();
-                linkParameters.set("summonerName", pair.getKey().getSummonerName());
+                String summonerName = pair.getKey().getSummonerName();
+                linkParameters.set("summonerName", summonerName);
                 linkParameters.set("region", summonerKey.getRegion().name());
                 BookmarkablePageLink<String> link = new BookmarkablePageLink<>("summoner_link",
                         SummonerQueryForwardPage.class, linkParameters);
@@ -92,10 +94,10 @@ public class SingleChampionPage extends StaticPage {
                         "http://ddragon.leagueoflegends.com/cdn/%s/img/profileicon/%d.png", PageDataProvider.getVersion(),
                         pair.getKey().getProfileIconId())));
                 // insert the summoner name
-                link.add(new Label("summoner_name", pair.getKey().getSummonerName()));
+                link.add(new Label("summoner_name", summonerName));
                 // insert mastery points and champion level
                 link.add(new Label("mastery_stats", String.format("%s - Level %d", NumberFormatter.formatLong(
-                        pair.getValue().getChampionPoints()), pair.getValue().getChampionLevel())));
+                        championMasteryItem.getChampionPoints()), championMasteryItem.getChampionLevel())));
             }
         });
 

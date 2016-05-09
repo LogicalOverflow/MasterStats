@@ -36,37 +36,6 @@ import static com.lvack.MasterStats.Util.SummonerKeyUtils.summonerKeyToIdRegion;
 public class DataManager {
     public static final int UP_TO_DATE_DURATION = 60 * 60 * 1000;
 
-    public static void fixSummoners() {
-        HashMap<RiotEndpoint, List<SummonerItem>> summoners = new HashMap<>();
-        DynamoDBMapper dynamoDBMapper = DBConnector.getInstance().getDynamoDBMapper();
-        scanPages(SummonerItem.class, new DynamoDBScanExpression(), DBTable.SUMMONER.getReadLimiter(), s -> {
-            SummonerKey summonerKey = summonerKeyToIdRegion(s.getSummonerKey());
-            RiotEndpoint region = summonerKey.getRegion();
-            if (!summoners.containsKey(region)) summoners.put(region, new ArrayList<>());
-            summoners.get(region).add(s);
-            if (summoners.get(region).size() > 8) {
-                List<SummonerItem> remove = summoners.remove(region);
-                log.info(String.format("updating %d summoners from %s", remove.size(), region.name()));
-                Long[] longs = new Long[remove.size()];
-                SummonerItem[] items = new SummonerItem[remove.size()];
-                longs = remove.stream().map(e -> summonerKeyToIdRegion(e.getSummonerKey()).getId())
-                        .collect(Collectors.toList()).toArray(longs);
-                items = remove.toArray(items);
-                deleteSummonersFromDb(items);
-                RiotApi api = RiotApiFactory.getApi(region);
-                Map<String, SummonerDto> news = api.getSummonerApi().getSummonersByIds(longs).get();
-                if (news == null) return;
-                dynamoDBMapper.batchSave(remove.stream().map(e -> {
-                    String id = String.valueOf(summonerKeyToIdRegion(e.getSummonerKey()).getId());
-                    SummonerDto summonerDto = news.get(id);
-                    e.setSummonerName(summonerDto.getName());
-                    e.setLastUpdated(System.currentTimeMillis());
-                    return e;
-                }).collect(Collectors.toList()));
-            }
-        });
-    }
-
     /**
      * Requests the required information (mastery score, league data, ...) from the riot api,
      * generates SummonerItems and championMasteryItems from this data and stores the summoners in the db
@@ -367,8 +336,6 @@ public class DataManager {
                     championStatisticItem.setAvgMasteryPoints(0);
                     championStatisticItem.setSumMasteryPoints(0);
                     championStatisticItem.setThresholdMasteryPoints(0);
-                    // championStatisticItem.setMaxPointsSummonerNameKey("");
-                    // championStatisticItem.setMaxPointsSummonerRegion("");
                     championStatisticItem.setTopSummoners(new ArrayList<>());
                     championStatisticItem.setHighestGradeCounts(new HashMap<>());
                     championStatisticItem.setLevelCounts(new HashMap<>());
@@ -523,36 +490,9 @@ public class DataManager {
         });
 
         // set summoner key name and summoner region of the top summoner in for every statistic
-        log.info("Collection summoner items");
+        log.info("Collection summoner items for top summoners");
         championStatistics.values().forEach(e -> {
-            /* // get summoner id and region
-            SummonerKey summonerKey = summonerKeyToIdRegion(e.getMaxPointsSummonerNameKey());
-            RiotApi riotApi = RiotApiFactory.getApi(summonerKey.getRegion());
-
-            // request summoner name from riot api
-            Map<String, SummonerDto> summonerDtosId = riotApi.getSummonerApi().getSummonersByIds(summonerKey.getId()).get();
-            if (summonerDtosId == null || summonerDtosId.size() != 1) {
-                e.setMaxPointsSummonerNameKey("");
-                return;
-            }
-
-            // request summoner key name from
-            Map.Entry<String, SummonerDto> summonerDtoIdEntry = summonerDtosId.entrySet().stream()
-                    .findFirst().orElse(null);
-            Map<String, SummonerDto> summonerDtosName = riotApi.getSummonerApi().
-                    getSummonersByNames(summonerDtoIdEntry.getValue().getName()).get();
-
-            if (summonerDtosName == null || summonerDtosName.size() != 1) {
-                e.setMaxPointsSummonerNameKey("");
-                return;
-            }
-
-            // save summoner key name and region
-            Map.Entry<String, SummonerDto> summonerDtoEntry = summonerDtosName.entrySet().stream().findFirst().orElse(null);
-            e.setMaxPointsSummonerNameKey(summonerDtoEntry.getKey());
-            e.setMaxPointsSummonerRegion(summonerKey.getRegion().name()); */
             // add summoner item to top summoners
-            log.info(String.format("Collection top summoners for %s", e.getKeyName()));
             List<Pair<SummonerItem, ChampionMasteryItem>> topSummoners = new ArrayList<>();
             e.getTopSummoners().forEach(s -> {
                 DBTable.SUMMONER.getReadLimiter().acquire();
@@ -565,6 +505,8 @@ public class DataManager {
                 PaginatedQueryList<SummonerItem> query = dynamoDBMapper.query(SummonerItem.class,
                         new DynamoDBQueryExpression<SummonerItem>().withKeyConditionExpression("summonerKey = :sk")
                                 .withExpressionAttributeValues(expressionAttributeValues));
+                // if the summoner was not found, do no add them to the new top summoners
+                if (query.size() == 0) return;
                 SummonerItem summonerItem = query.get(0);
 
                 topSummoners.add(new Pair<>(summonerItem, masteryItem));
