@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.model.TableDescription;
 import com.google.common.util.concurrent.RateLimiter;
 import com.lvack.MasterStats.Util.Pair;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 
@@ -16,6 +17,7 @@ import java.util.HashMap;
 /**
  * enum of all db tables with their respective name and rate limiters to control request counts
  */
+@Slf4j
 public enum DBTable {
     CHAMPION("champion"),
     CHAMPION_MASTERY("championMastery"),
@@ -55,15 +57,19 @@ public enum DBTable {
         // update rate limits
         readLimiter = RateLimiter.create(readCapacityUnits);
         writeLimiter = RateLimiter.create(writeCapacityUnits);
+        log.info(String.format(" - %s: %d read, %d write", tableName, readCapacityUnits, writeCapacityUnits));
 
         // check if secondary indexes exist
         if (table.getGlobalSecondaryIndexes() == null) return;
         // iterate over all indexes and add them to the map of indexes
         table.getGlobalSecondaryIndexes().forEach(i -> {
-            Pair<RateLimiter, RateLimiter> rateLimiters = new Pair<>(
-                    RateLimiter.create(i.getProvisionedThroughput().getReadCapacityUnits()),
-                    RateLimiter.create(i.getProvisionedThroughput().getWriteCapacityUnits()));
+            Long indexReadCapacityUnits = i.getProvisionedThroughput().getReadCapacityUnits();
+            Long indexWriteCapacityUnits = i.getProvisionedThroughput().getWriteCapacityUnits();
+            Pair<RateLimiter, RateLimiter> rateLimiters = new Pair<>(RateLimiter.create(indexReadCapacityUnits),
+                    RateLimiter.create(indexWriteCapacityUnits));
             indexRateLimiter.put(i.getIndexName(), rateLimiters);
+            log.info(String.format("   - %s: %d read, %d write", i.getIndexName(), indexReadCapacityUnits,
+                    indexWriteCapacityUnits));
         });
     }
 

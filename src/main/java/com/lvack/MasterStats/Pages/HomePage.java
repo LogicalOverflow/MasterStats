@@ -5,13 +5,20 @@ import com.googlecode.wickedcharts.highcharts.options.series.Point;
 import com.googlecode.wickedcharts.highcharts.options.series.PointSeries;
 import com.googlecode.wickedcharts.wicket7.highcharts.Chart;
 import com.lvack.MasterStats.Api.StaticData.RankedTier;
+import com.lvack.MasterStats.MasteryApplication;
 import com.lvack.MasterStats.PageData.PageDataProvider;
 import com.lvack.MasterStats.Util.NumberFormatter;
 import com.lvack.MasterStats.Util.TierComparator;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.protocol.http.request.WebClientInfo;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.wicketstuff.annotation.mount.MountPath;
+
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * HomePageClass for MasterStats
@@ -82,6 +89,22 @@ public class HomePage extends StaticPage {
         // set player count in text
         add(new Label("player_count", NumberFormatter.formatLong(PageDataProvider.overallSummonerStatisticItem
                 .getSummonerCounts().values().stream().mapToInt(i -> i).sum())));
+
+        // set update time to the time in the users timezone and show the timezone used
+        // set default timezone
+        DateTimeZone dateTimeZone = DateTimeZone.UTC;
+        // try to get the browsers timezone
+        try {
+            TimeZone timeZone = ((WebClientInfo) getSession().getClientInfo()).getProperties().getTimeZone();
+            if (timeZone != null) dateTimeZone = DateTimeZone.forTimeZone(timeZone);
+            else log.info("timeZone is null");
+        } catch (Exception ignored) {
+            // if anything goes wrong, just stick with UTC as default time zone
+        }
+        DateTime timeZoneDateTime = new DateTime(MasteryApplication.UPDATE_TIME.toDateTimeToday(), dateTimeZone);
+
+        add(new Label("update_time", String.format("%02d:%02d (%s)", timeZoneDateTime.getHourOfDay(), timeZoneDateTime.
+                getMinuteOfHour(), TimeZone.getTimeZone(dateTimeZone.getID()).getDisplayName(Locale.US))));
     }
 
 }

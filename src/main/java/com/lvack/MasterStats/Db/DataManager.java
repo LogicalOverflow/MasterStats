@@ -2,6 +2,7 @@ package com.lvack.MasterStats.Db;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughputExceededException;
 import com.amazonaws.services.dynamodbv2.model.ReturnConsumedCapacity;
 import com.google.common.util.concurrent.RateLimiter;
 import com.lvack.MasterStats.Api.ResponseClasses.*;
@@ -515,10 +516,18 @@ public class DataManager {
         });
 
         // save ChampionStatisticItem instance to dynamoDB and local statistics cache
-        // dynamoDBMapper.save(championStatisticItem);
         championStatistics.values().forEach(e -> {
-            DBTable.CHAMPION_STATISTIC.getWriteLimiter().acquire();
-            dynamoDBMapper.save(e);
+            boolean retry = true;
+            // if the throughput is exceeded, retry
+            while (retry) {
+                try {
+                    DBTable.CHAMPION_STATISTIC.getWriteLimiter().acquire();
+                    dynamoDBMapper.save(e);
+                    retry = false;
+                } catch (ProvisionedThroughputExceededException exception) {
+                    retry = true;
+                }
+            }
             PageDataProvider.championStatisticMap.put(e.getKeyName().toLowerCase(), e);
         });
 

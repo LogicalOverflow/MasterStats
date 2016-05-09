@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.wicket.Page;
 import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
@@ -23,8 +25,12 @@ import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
 
 @Slf4j
 public class MasteryApplication extends WebApplication {
+    // create date time for the update time
+    public static final LocalTime UPDATE_TIME = new LocalTime(4, 0);
+    // set cache update time 30 minutes earlier
+    public static final LocalTime CACHE_UPDATE_TIME = UPDATE_TIME.minusMinutes(30);
     // boolean to easily toggle deployment between deployment and development mode
-    private static final boolean deployment = true;
+    private static final boolean deployment = false;
     private Scheduler scheduler;
     private SummonerCrawlRunnable summonerCrawlRunnable;
 
@@ -38,6 +44,9 @@ public class MasteryApplication extends WebApplication {
     @Override
     protected void init() {
         super.init();
+
+        // get extended browser info
+        getRequestCycleSettings().setGatherExtendedBrowserInfo(true);
 
         log.info(String.format("Application is starting in %s mode", getConfigurationType().name()));
 
@@ -78,7 +87,8 @@ public class MasteryApplication extends WebApplication {
 
                 Trigger cacheUpdateTrigger = TriggerBuilder.newTrigger()
                         .withIdentity("defaultCacheUpdaterTrigger", "cacheUpdater")
-                        .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(3, 30))
+                        .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(CACHE_UPDATE_TIME.getHourOfDay(),
+                                CACHE_UPDATE_TIME.getMinuteOfHour()))
                         .build();
 
                 scheduler.scheduleJob(cacheUpdateJob, cacheUpdateTrigger);
@@ -89,7 +99,8 @@ public class MasteryApplication extends WebApplication {
 
                 Trigger updateTrigger = TriggerBuilder.newTrigger()
                         .withIdentity("defaultUpdaterTrigger", "updater")
-                        .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(4, 0))
+                        .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(UPDATE_TIME.getHourOfDay(),
+                                UPDATE_TIME.getMinuteOfHour()))
                         .build();
 
                 scheduler.scheduleJob(updateJob, updateTrigger);
