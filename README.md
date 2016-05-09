@@ -56,8 +56,8 @@ Next, you must create 2 properties files in the folder src/main/resources:
   production key (used to configure the rate limits). If the option has
   an invalid value or is not set at all, false is used.
 * dynamoDB.properties: must contain the following properties:
-  * accessKey: the access key for an IAM user with access to the database
-  * secretKey: the secret key for an IAM user with access to the database
+  * accessKey: the access key for a IAM user with access to the database
+  * secretKey: the secret key for a IAM user with access to the database
   * region: the region the dynamoDB is hosted (e.g. "EU_CENTRAL_1")
 
 Now you can build the MasterStats-Server.war file using maven. The war file
@@ -70,8 +70,8 @@ way to do this is to just search for them on your instance.
 ## Technology
 
 I use [Tomcat](http://tomcat.apache.org/), [Wicket](http://wicket.apache.org/) and mainly because I
-already have experience using  them. [AWS DynamoDB](https://aws.amazon.com/dynamodb) is used because it
-can handle all my data while remaining fast and being easily scalable. Additionally, Amazon provides nice
+already have experience using  them. [AWS DynamoDB](https://aws.amazon.com/dynamodb) is used, because it
+can handle all my data while remaining fast and being easily scalable. Additionally Amazon provides nice
 [Java SDK](https://aws.amazon.com/sdk-for-java/) for their web services.
 
 [AWS Beanstalk](https://aws.amazon.com/elasticbeanstalk) is used for deployment of the live demo and
@@ -113,7 +113,7 @@ database. Additionally, I reworked all my functions (statistic generation, addin
 summoners, etc.) to be able to use DynamoDB.
 
 When I used MySQL I just used aggregate functions to generate my statistics. With
-DynamoDB, I needed to take a different approach, as there are no aggregate functions.
+DynamoDB I needed to take a different approach, as there are no aggregate functions.
 I started scanning the whole database and collection the data while scanning. As this
 process is very read intensive for the database, I decided to store the generated
 statistics in the database as well and only generate them once a day in the middle of
@@ -124,13 +124,13 @@ The challenge of finding new summoners came up because there is no way of gettin
 random summoners using Riot's API directly. I first started checking random summoner
 ids on all regions, always generating 10 random ids and then requesting the summoner
 information from the API for each region. This actually worked better than I had expected
-and after a few days, I had more than 40000 summoners from 6 regions (TR, KR, EUNE,
+and after a few days I had more than 40000 summoners from 6 regions (TR, KR, EUNE,
 EUW, NA, BR) in my database. Then I decided to change things up because the summoners I
 was collecting were partially not active and I needed a lot of requests for a few summoners.
 
 My new and current method is, to get a batch of summoners from the database and then request
 their match histories. After that all summoner from their last games played are added to the
-database as well. If a summoner has no games in their history, they will be deleted from the
+database as well. If a summoner has no games in their history, they will be deleted form the
 database as they are not actively playing.
 
 ### Keeping my credentials save
@@ -163,14 +163,14 @@ filtering.
 
 ### Respecting Rate Limits
 As both the Riot API as well as the reads and writes to DynamoDB are limited I had to ensure I do not
-run too many requests too fast. After some research, I found [Guavas RateLimiter](http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/util/concurrent/RateLimiter.html),
-which does exactly what I need. I created an instance per API region and called the rate limiters
+run too many requests too fast. After some research I found [Guavas RateLimiter](http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/util/concurrent/RateLimiter.html),
+which does exactly what I need. I created an instance per API region amd called the rate limiters
 acquire to wait for available capacity.
 
 For DynamoDB rate limiters are used as well with two rate limiters for each table and global secondary
-index (one for reading and one write for writing), and whenever a database action is performed,
+index (one for reading and one write for writing), and whenever an database action is performed,
 the rate limiters are used to ensure the provisioned throughput is not exceeded. Additionally,
 the rate limiters limits are requested directly from the database. This way the capacities can be
 updated and the code will automatically use the new rate limits. The local rate limits are updated
-every night as the first step of the nightly data updating process because this way these updates always
+every night as first step of the nightly data updating process, because this way these updates always
 use up-to-date rate limits.
