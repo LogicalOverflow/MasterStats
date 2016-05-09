@@ -7,12 +7,15 @@ import com.lvack.MasterStats.Api.RiotApi;
 import com.lvack.MasterStats.Api.RiotApiFactory;
 import com.lvack.MasterStats.Api.RiotApiResponse;
 import com.lvack.MasterStats.Api.StaticData.RiotEndpoint;
+import com.lvack.MasterStats.Db.DataClasses.SummonerItem;
 import com.lvack.MasterStats.Db.DataManager;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.lvack.MasterStats.Util.SummonerKeyUtils.summonerKeyToIdRegion;
 
 /**
  * SummonerCrawlRunnableClass for MasterStats
@@ -42,7 +45,7 @@ public class SummonerCrawlRunnable implements Runnable {
         while (running) {
             // get summoners to update
             log.info("Updating next batch of summoners");
-            HashMap<RiotEndpoint, List<Long>> nextUpdateSummoners = DataManager.getNextUpdateSummoners(20);
+            HashMap<RiotEndpoint, List<SummonerItem>> nextUpdateSummoners = DataManager.getNextUpdateSummoners(20);
             log.info(String.format("Got data of %d summoners", nextUpdateSummoners.size()));
 
             // iterate over all regions
@@ -55,12 +58,12 @@ public class SummonerCrawlRunnable implements Runnable {
                 RiotApi api = RiotApiFactory.getApi(endpoint);
 
                 // create list of summoners to add and delete
-                List<Long> deleteList = new ArrayList<>();
+                List<SummonerItem> deleteList = new ArrayList<>();
                 List<Long> summonerIds = new ArrayList<>();
 
                 // iterate over all summoners in the region
-                e.getValue().forEach(id -> {
-                    long summonerId = id;
+                e.getValue().forEach(item -> {
+                    long summonerId = summonerKeyToIdRegion(item.getSummonerKey()).getId();
                     // request summoners latest 10 matches from their match history
                     RiotApiResponse<MatchList> matchListResponse = api.getMatchListApi().getMatchListBySummoner(summonerId, 0, 10);
                     MatchList matchList = matchListResponse.get();
@@ -87,7 +90,7 @@ public class SummonerCrawlRunnable implements Runnable {
                         // if no matches or no match history were found, schedule summoner for deletion
                         if (matchListResponse.getResponse().getStatus() == 404 ||
                                 matchList != null && matchList.getEndIndex() == 0)
-                            deleteList.add(summonerId);
+                            deleteList.add(item);
                     }
 
                 });
@@ -106,11 +109,11 @@ public class SummonerCrawlRunnable implements Runnable {
 
                 // remove summoners without a match history form the db
                 while (deleteList.size() > 0) {
-                    Long[] longs = new Long[Math.min(deleteList.size(), 10)];
-                    for (int l = 0; l < longs.length; l++) {
-                        longs[l] = deleteList.remove(0);
+                    SummonerItem[] items = new SummonerItem[Math.min(deleteList.size(), 10)];
+                    for (int l = 0; l < items.length; l++) {
+                        items[l] = deleteList.remove(0);
                     }
-                    DataManager.deleteSummonersFromDb(endpoint, longs);
+                    DataManager.deleteSummonersFromDb(items);
                 }
             });
         }

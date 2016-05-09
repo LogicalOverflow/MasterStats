@@ -14,7 +14,7 @@ import lombok.Getter;
 /**
  * singleton class to provide dynamoDB and mapper
  */
-class DBConnector {
+public class DBConnector {
     @Getter
     private static final DBConnector instance = new DBConnector();
     @Getter

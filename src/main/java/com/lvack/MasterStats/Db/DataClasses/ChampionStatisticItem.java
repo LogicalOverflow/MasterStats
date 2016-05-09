@@ -3,7 +3,9 @@ package com.lvack.MasterStats.Db.DataClasses;
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.google.gson.Gson;
 import com.lvack.MasterStats.Db.Marshaller.StringIntegerIntegerMapMarshaller;
+import com.lvack.MasterStats.Db.Marshaller.SummonerItemChampionMasteryItemPairListMarshaller;
 import com.lvack.MasterStats.Util.GsonProvider;
+import com.lvack.MasterStats.Util.Pair;
 import lombok.Data;
 
 import java.util.*;
@@ -23,6 +25,7 @@ public class ChampionStatisticItem {
     public static final int MAX_CHAMPION_LEVEL = 5;
     public static Set<String> GRADES = new HashSet<>(Arrays.asList("S+", "S", "S-",
             "A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "null"));
+    public static final int TOP_SUMMONER_COUNT = 20;
 
     private static Gson gson = GsonProvider.getGSON();
 
@@ -42,12 +45,12 @@ public class ChampionStatisticItem {
     private double avgMasteryPoints;
     @DynamoDBAttribute(attributeName = "sumMasteryPoints")
     private long sumMasteryPoints;
-    @DynamoDBAttribute(attributeName = "maxMasteryPoints")
-    private long maxMasteryPoints;
-    @DynamoDBAttribute(attributeName = "maxPointsSummonerNameKey")
-    private String maxPointsSummonerNameKey;
-    @DynamoDBAttribute(attributeName = "maxPointsSummonerRegion")
-    private String maxPointsSummonerRegion;
+    @DynamoDBAttribute(attributeName = "thresholdMasteryPoints")
+    private long thresholdMasteryPoints;
+
+    @DynamoDBAttribute(attributeName = "topSummoners")
+    @DynamoDBMarshalling(marshallerClass = SummonerItemChampionMasteryItemPairListMarshaller.class)
+    private List<Pair<SummonerItem, ChampionMasteryItem>> topSummoners;
 
     @DynamoDBAttribute(attributeName = "highestGradeCounts")
     private Map<String, Map<String, Integer>> highestGradeCounts = new HashMap<>();

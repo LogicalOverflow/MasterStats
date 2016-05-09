@@ -14,6 +14,7 @@ import org.apache.commons.collections4.queue.CircularFifoQueue;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * PageDataProviderClass for MasterStats
@@ -42,6 +43,17 @@ public class PageDataProvider {
         String key = championIdKeyNameMap.getOrDefault(championId, "").toLowerCase();
         if (championStatisticMap.containsKey(key)) return championStatisticMap.get(key);
         return null;
+    }
+
+    /**
+     * returns the value of the current version, defaults to 6.9.1 if not set
+     * @return the version
+     */
+    public static String getVersion() {
+        String version = PageDataProvider.version;
+        version = version == null ? "6.9.1" : version;
+        version = Objects.equals(version, "null") ? "6.9.1" : version;
+        return version;
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.lvack.MasterStats.Util;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * GsonProviderClass for MasterStats
@@ -12,7 +13,7 @@ import com.google.gson.Gson;
  * static class to provide the global gson instance
  */
 public class GsonProvider {
-    private static final Gson GSON = new Gson();
+    private static final Gson GSON = new GsonBuilder().create();
 
     public static Gson getGSON() {
         return GSON;

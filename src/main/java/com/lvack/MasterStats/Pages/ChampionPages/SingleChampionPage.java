@@ -5,25 +5,36 @@ import com.googlecode.wickedcharts.highcharts.options.series.Point;
 import com.googlecode.wickedcharts.highcharts.options.series.PointSeries;
 import com.googlecode.wickedcharts.highcharts.options.series.SimpleSeries;
 import com.googlecode.wickedcharts.wicket7.highcharts.Chart;
+import com.lvack.MasterStats.Db.DataClasses.ChampionMasteryItem;
 import com.lvack.MasterStats.Db.DataClasses.ChampionStatisticItem;
+import com.lvack.MasterStats.Db.DataClasses.SummonerItem;
 import com.lvack.MasterStats.PageData.PageDataProvider;
 import com.lvack.MasterStats.Pages.StaticPage;
 import com.lvack.MasterStats.Pages.SummonerPage.SingleSummonerPage;
+import com.lvack.MasterStats.Pages.SummonerPage.SummonerQueryForwardPage;
 import com.lvack.MasterStats.Util.GradeComparator;
 import com.lvack.MasterStats.Util.NumberFormatter;
+import com.lvack.MasterStats.Util.Pair;
+import com.lvack.MasterStats.Util.SummonerKey;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.ExternalImage;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.request.http.flow.AbortWithHttpErrorCodeException;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.string.StringValue;
 import org.wicketstuff.annotation.mount.MountPath;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static com.lvack.MasterStats.Util.SummonerKeyUtils.summonerKeyToIdRegion;
 
 /**
  * SingleChampionPageClass for MasterStats
@@ -56,14 +67,37 @@ public class SingleChampionPage extends StaticPage {
         add(new Label("champion_title", championStatisticItem.getChampionTitle()));
         add(new ExternalImage("champion_portrait", championStatisticItem.getPortraitUrl()));
 
-        // add link to top summoner and set highest score
-        BookmarkablePageLink highestScoreLink = new BookmarkablePageLink("highest_score_link",
-                SingleSummonerPage.class, new PageParameters()
-                .set(0, championStatisticItem.getMaxPointsSummonerRegion())
-                .set(1, championStatisticItem.getMaxPointsSummonerNameKey()));
-        highestScoreLink.add(new Label("highest_score", NumberFormatter.formatLong(championStatisticItem
-                .getMaxMasteryPoints())));
-        add(highestScoreLink);
+        List<Pair<SummonerItem, ChampionMasteryItem>> topSummoners = championStatisticItem.getTopSummoners();
+        if (topSummoners == null) topSummoners = new ArrayList<>();
+        // get the three highest scoring summoners in descending order
+        topSummoners = topSummoners.stream().sorted((e1, e2) -> e2.getValue().getChampionPoints() -
+                e1.getValue().getChampionPoints()).limit(3).collect(Collectors.toList());
+        // add those top summoners to the page
+        add(new ListView<Pair<SummonerItem, ChampionMasteryItem>>("top_summoners", topSummoners) {
+            @Override
+            protected void populateItem(ListItem<Pair<SummonerItem, ChampionMasteryItem>> item) {
+                Pair<SummonerItem, ChampionMasteryItem> pair = item.getModelObject();
+                // create a link to the summoner
+                SummonerKey summonerKey = summonerKeyToIdRegion(pair.getKey().getSummonerKey());
+                PageParameters linkParameters = new PageParameters();
+                linkParameters.set("summonerName", pair.getKey().getSummonerName());
+                linkParameters.set("region", summonerKey.getRegion().name());
+                BookmarkablePageLink<String> link = new BookmarkablePageLink<>("summoner_link",
+                        SummonerQueryForwardPage.class, linkParameters);
+
+                item.add(link);
+
+                // insert the summoner icon
+                link.add(new ExternalImage("summoner_icon", String.format(
+                        "http://ddragon.leagueoflegends.com/cdn/%s/img/profileicon/%d.png", PageDataProvider.getVersion(),
+                        pair.getKey().getProfileIconId())));
+                // insert the summoner name
+                link.add(new Label("summoner_name", pair.getKey().getSummonerName()));
+                // insert mastery points and champion level
+                link.add(new Label("mastery_stats", String.format("%s - Level %d", NumberFormatter.formatLong(
+                        pair.getValue().getChampionPoints()), pair.getValue().getChampionLevel())));
+            }
+        });
 
         // create player distribution chart
         Options playerOptions = new Options();
