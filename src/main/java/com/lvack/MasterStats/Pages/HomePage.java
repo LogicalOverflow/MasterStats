@@ -52,7 +52,7 @@ public class HomePage extends StaticPage {
         // iterate over all summoner counts and create points accordingly
         // then add all points to the series
         PageDataProvider.overallSummonerStatisticItem.getSummonerCounts().entrySet().stream()
-                .map(e -> new Point(e.getKey(), e.getValue())).forEach(regionSeries::addPoint);
+                .map(e -> new Point(e.getKey(), e.getValue()).setId(e.getKey())).forEach(regionSeries::addPoint);
         // set title and size of pie chart
         regionSeries.setName("Players");
         regionSeries.setSize(new PixelOrPercent(80, PixelOrPercent.Unit.PERCENT));
@@ -70,8 +70,15 @@ public class HomePage extends StaticPage {
                         // sort points by tier name within a region
                         .sorted((e1, e2) -> TierComparator.staticCompare(e1.getKey(), e2.getKey()))
                         // create a point stream using [region name]-[tier name] as labels and the player counts as values
-                        .map(i -> new Point(e.getKey() + "-" + RankedTier.getTierByName(i.getKey()).name(),
-                                i.getValue(), RankedTier.getTierByName(i.getKey()).getColor())))
+                        .map(i -> {
+                            Point point =  new Point(e.getKey() + "-" + RankedTier.getTierByName(i.getKey()).name(),
+                                    i.getValue(), RankedTier.getTierByName(i.getKey()).getColor());
+                            // use region color for label texts
+                            point.setDataLabels(new DataLabels().setShadow(false).setFormatter(new Function(
+                                    "return '<span style=\"color:' + this.series.chart.get('" + e.getKey() +
+                                            "').color + '\">' + this.point.name + '</span>'")));
+                            return point;
+                        }))
                 // add all points to the series
                 .forEach(tierSeries::addPoint);
         // set title size of donut chart
@@ -79,7 +86,8 @@ public class HomePage extends StaticPage {
         tierSeries.setInnerSize(new PixelOrPercent(80, PixelOrPercent.Unit.PERCENT));
         tierSeries.setSize(new PixelOrPercent(100, PixelOrPercent.Unit.PERCENT));
         // disable label shadows
-        tierSeries.setDataLabels(new DataLabels().setShadow(false));
+        /* tierSeries.setDataLabels(new DataLabels().setShadow(false).setFormatter(new Function(
+                "return '<span style=\"color:' + this.chart.get('').color + '\">' + this.point.name + '</span>"))); */
         // add series to chart
         playerOptions.addSeries(tierSeries);
 
