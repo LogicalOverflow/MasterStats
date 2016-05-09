@@ -28,9 +28,9 @@ public class MasteryApplication extends WebApplication {
     // create date time for the update time
     public static final LocalTime UPDATE_TIME = new LocalTime(4, 0);
     // set cache update time 30 minutes earlier
-    public static final LocalTime CACHE_UPDATE_TIME = UPDATE_TIME.minusMinutes(30);
+    private static final LocalTime CACHE_UPDATE_TIME = UPDATE_TIME.minusMinutes(30);
     // boolean to easily toggle deployment between deployment and development mode
-    private static final boolean deployment = false;
+    private static final boolean deployment = true;
     private Scheduler scheduler;
     private SummonerCrawlRunnable summonerCrawlRunnable;
 

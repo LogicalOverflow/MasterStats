@@ -7,6 +7,8 @@ import com.lvack.MasterStats.Util.Pair;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 /**
  * DBTableClass for MasterStats
@@ -27,11 +29,11 @@ public enum DBTable {
     private final String tableName;
     private RateLimiter readLimiter;
     private RateLimiter writeLimiter;
-    private HashMap<String, Pair<RateLimiter, RateLimiter>> indexRateLimiter;
+    private HashMap<String, Pair<RateLimiter, RateLimiter>> indexRateLimiters;
 
     DBTable(String tableName) {
         this.tableName = tableName;
-        this.indexRateLimiter = new HashMap<>();
+        this.indexRateLimiters = new HashMap<>();
         updateRateLimits();
     }
 
@@ -39,6 +41,7 @@ public enum DBTable {
      * Updates the read and write capacities for all table
      */
     public static void updateAllRateLimits() {
+        log.info("updating dynamoDB rate limits");
         for (DBTable dbTable : DBTable.values()) dbTable.updateRateLimits();
     }
 
@@ -57,7 +60,6 @@ public enum DBTable {
         // update rate limits
         readLimiter = RateLimiter.create(readCapacityUnits);
         writeLimiter = RateLimiter.create(writeCapacityUnits);
-        log.info(String.format(" - %s: %d read, %d write", tableName, readCapacityUnits, writeCapacityUnits));
 
         // check if secondary indexes exist
         if (table.getGlobalSecondaryIndexes() == null) return;
@@ -67,9 +69,7 @@ public enum DBTable {
             Long indexWriteCapacityUnits = i.getProvisionedThroughput().getWriteCapacityUnits();
             Pair<RateLimiter, RateLimiter> rateLimiters = new Pair<>(RateLimiter.create(indexReadCapacityUnits),
                     RateLimiter.create(indexWriteCapacityUnits));
-            indexRateLimiter.put(i.getIndexName(), rateLimiters);
-            log.info(String.format("   - %s: %d read, %d write", i.getIndexName(), indexReadCapacityUnits,
-                    indexWriteCapacityUnits));
+            indexRateLimiters.put(i.getIndexName(), rateLimiters);
         });
     }
 
@@ -93,7 +93,11 @@ public enum DBTable {
         return getIndexRateLimiterPair(indexName).getValue();
     }
 
+    public Set<String> getIndexNames() {
+        return indexRateLimiters.keySet();
+    }
+
     private Pair<RateLimiter, RateLimiter> getIndexRateLimiterPair(String indexName) {
-        return indexRateLimiter.get(indexName);
+        return indexRateLimiters.get(indexName);
     }
 }
