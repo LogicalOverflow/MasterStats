@@ -123,18 +123,18 @@ to store the generated statistics in the database as well and generate them only
 in the middle of the night using schedulers.
 
 ### Collecting the summoners
-The challenge of finding new summoners came up because there is no way of getting
-random summoners using Riot's API directly. I first started checking random summoner
-ids on all regions, always generating 10 random ids and then requesting the summoner
+Finding new summoners was a challenge because there is no way of getting
+random summoners using Riot's API directly. I first started checking randomly created summoner
+ids on all regions, always generating 10 random ids at a time and then requesting the summoner
 information from the API for each region. This actually worked better than I had expected
-and after a few days, I had more than 40000 summoners from 6 regions (TR, KR, EUNE,
+and after a few days, there were more than 40000 summoners from 6 regions (TR, KR, EUNE,
 EUW, NA, BR) in my database. Then I decided to change things up because the summoners I
-was collecting were partially not active and I needed a lot of requests for a few summoners.
+was collecting were partially not active and I needed a lot of requests for only a few summoners.
 
-My new and current method is, to get a batch of summoners from the database and then request
+My new and current method is, to get a group of summoners from the database and then request
 their match histories. After that all summoner from their last games played are added to the
 database as well. If a summoner has no games in their history, they will be deleted from the
-database as they are not actively playing.
+database because those summoners are not actively playing.
 
 ### Keeping my credentials save
 As all the code must be published on GitHub, hardcoding the API key and my AWS credentials
