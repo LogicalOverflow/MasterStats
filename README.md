@@ -137,10 +137,10 @@ database as well. If a summoner has no games in their history, they will be dele
 database because those summoners are not actively playing.
 
 ### Keeping my credentials save
-As all the code must be published on GitHub, hardcoding the API key and my AWS credentials
-didn't sound like a great idea. I looked for an easy and clean way to keep my API key
-and my AWS credentials save without storing them in system variables because I want to be
-easily able to switch the server hosting my page. Additionally, making it easy to set them
+As all the code must be published on GitHub and hardcoding the personal API key and my AWS credentials
+didn't sound like either a great or secure idea. I looked for an easy and clean way to keep my API key
+and my AWS credentials secure without storing them in system variables because I want to be
+able to effortlessly switch between servers hosting my page. Additionally, making it easy to set them
 for other people, was important for me as well, as I want other people to easily set
 up their own instance of my code.
 
